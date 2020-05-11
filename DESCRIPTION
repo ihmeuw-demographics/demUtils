@@ -22,4 +22,8 @@ Suggests:
 VignetteBuilder: knitr
 Language: en-US
 Imports:
-    data.table
+    data.table,
+    assertthat,
+    assertive,
+    assertable (>= 0.2.7),
+    methods
