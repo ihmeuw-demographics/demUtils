@@ -1,4 +1,4 @@
 library(testthat)
-library(packageTemplate)
+library(demUtils)
 
-test_check("packageTemplate")
+test_check("demUtils")
