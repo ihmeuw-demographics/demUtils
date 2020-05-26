@@ -7,14 +7,14 @@
 rinvgamma(n, shape, scale)
 }
 \arguments{
-\item{n}{number of observations. If length(n) > 1, the length is taken to be
-the number required.}
+\item{n}{number of observations. If \code{length(n) > 1}, the length
+    is taken to be the number required.}
 
-\item{shape}{shape parameter of Inverse Gamma distribution, also known as the
-alpha parameter. Must be positive.}
+\item{shape}{shape and scale parameters.  Must be positive,
+    \code{scale} strictly.}
 
-\item{scale}{scale parameter of Inverse Gamma distribution, also known as the
-beta parameter. Must be positive.}
+\item{scale}{shape and scale parameters.  Must be positive,
+    \code{scale} strictly.}
 }
 \value{
 numeric vector of length \code{n}.
