@@ -52,10 +52,10 @@ identify_non_unique_dt <- function(dt, id_cols) {
 
   # Count number of rows in each combination of `id_cols` -------------------
 
-  check_unique_dt <- dt[, list(check = .N), by = id_cols]
-  check_unique_dt <- check_unique_dt[check > 1]
+  non_unique_dt <- dt[duplicated(dt, by = id_cols)]
+  non_unique_dt <- non_unique_dt[, id_cols, with = FALSE]
 
-  setcolorder(check_unique_dt, c(id_cols, "check"))
-  setkeyv(check_unique_dt, c(id_cols, "check"))
-  return(check_unique_dt)
+  setcolorder(non_unique_dt, id_cols)
+  setkeyv(non_unique_dt, id_cols)
+  return(non_unique_dt)
 }
