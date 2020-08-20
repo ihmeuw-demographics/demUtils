@@ -18,9 +18,9 @@ remotes::install_github("ihmeuw-demographics/demUtils")
 
 ## Getting help
 
-demViz function documentation and vignettes can be found at [https://ihmeuw-demographics.github.io/demViz/index.html](https://ihmeuw-demographics.github.io/demViz/index.html)
+demUtils function documentation and vignettes can be found at [https://ihmeuw-demographics.github.io/demUtils/index.html](https://ihmeuw-demographics.github.io/demUtils/index.html)
 
-If you encounter a clear bug, missing documentation, or a feature you'd like to see implemented please file an issue on [github](https://github.com/ihmeuw-demographics/demViz/issues) with the information requested in the issue template.
+If you encounter a clear bug, missing documentation, or a feature you'd like to see implemented please file an issue on [github](https://github.com/ihmeuw-demographics/demUtils/issues) with the information requested in the issue template.
 
 ## Contributing
 
