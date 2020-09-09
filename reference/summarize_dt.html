@@ -134,12 +134,12 @@ draws, or locations, or location-years, etc.</p>
     </div>
 
     <pre class="usage"><span class='fu'>summarize_dt</span>(
-  <span class='no'>dt</span>,
-  <span class='no'>id_cols</span>,
-  <span class='no'>summarize_cols</span>,
-  <span class='no'>value_col</span>,
-  <span class='kw'>summary_fun</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mean"</span>),
-  <span class='kw'>probs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.025</span>, <span class='fl'>0.975</span>)
+  <span class='kw'>dt</span>,
+  <span class='kw'>id_cols</span>,
+  <span class='kw'>summarize_cols</span>,
+  <span class='kw'>value_col</span>,
+  summary_fun = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mean"</span>),
+  probs = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.025</span>, <span class='fl'>0.975</span>)
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -198,20 +198,22 @@ quantiles for using the <code><a href='https://rdrr.io/r/stats/quantile.html'>st
 data.table.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>input_dt</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>data.table</span><span class='kw ns'>::</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table</a></span>(<span class='kw'>location</span> <span class='kw'>=</span> <span class='st'>"USA"</span>,
-                                   <span class='kw'>draw</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>101</span>,
-                                   <span class='kw'>value</span> <span class='kw'>=</span> <span class='fl'>0</span>:<span class='fl'>100</span>)
-<span class='no'>output_dt</span> <span class='kw'>&lt;-</span> <span class='fu'>summarize_dt</span>(<span class='kw'>dt</span> <span class='kw'>=</span> <span class='no'>input_dt</span>,
-                          <span class='kw'>id_cols</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"location"</span>, <span class='st'>"draw"</span>),
-                          <span class='kw'>summarize_cols</span> <span class='kw'>=</span> <span class='st'>"draw"</span>,
-                          <span class='kw'>value_col</span> <span class='kw'>=</span> <span class='st'>"value"</span>)
+    <pre class="examples"><div class='input'><span class='kw'>input_dt</span> <span class='op'>&lt;-</span> <span class='kw'>data.table</span>::<span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table</a></span>(location = <span class='st'>"USA"</span>,
+                                   draw = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>101</span>,
+                                   value = <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>)
+<span class='kw'>output_dt</span> <span class='op'>&lt;-</span> <span class='fu'>summarize_dt</span>(dt = <span class='kw'>input_dt</span>,
+                          id_cols = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"location"</span>, <span class='st'>"draw"</span>),
+                          summarize_cols = <span class='st'>"draw"</span>,
+                          value_col = <span class='st'>"value"</span>)
 
 <span class='co'># no quantiles calculated</span>
-<span class='no'>output_dt</span> <span class='kw'>&lt;-</span> <span class='fu'>summarize_dt</span>(<span class='kw'>dt</span> <span class='kw'>=</span> <span class='no'>input_dt</span>,
-                          <span class='kw'>id_cols</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"location"</span>, <span class='st'>"draw"</span>),
-                          <span class='kw'>summarize_cols</span> <span class='kw'>=</span> <span class='st'>"draw"</span>,
-                          <span class='kw'>value_col</span> <span class='kw'>=</span> <span class='st'>"value"</span>,
-                          <span class='kw'>probs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</div></pre>
+<span class='kw'>output_dt</span> <span class='op'>&lt;-</span> <span class='fu'>summarize_dt</span>(dt = <span class='kw'>input_dt</span>,
+                          id_cols = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"location"</span>, <span class='st'>"draw"</span>),
+                          summarize_cols = <span class='st'>"draw"</span>,
+                          value_col = <span class='st'>"value"</span>,
+                          probs = <span class='kw'>NULL</span>)
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -227,7 +229,7 @@ data.table.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

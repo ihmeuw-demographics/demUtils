@@ -131,9 +131,9 @@ combination of the id columns." />
 combination of the id columns.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>assert_is_unique_dt</span>(<span class='no'>dt</span>, <span class='no'>id_cols</span>)
+    <pre class="usage"><span class='fu'>assert_is_unique_dt</span>(<span class='kw'>dt</span>, <span class='kw'>id_cols</span>)
 
-<span class='fu'>identify_non_unique_dt</span>(<span class='no'>dt</span>, <span class='no'>id_cols</span>)</pre>
+<span class='fu'>identify_non_unique_dt</span>(<span class='kw'>dt</span>, <span class='kw'>id_cols</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -163,13 +163,14 @@ specified id variables list, this is appropriate when you expect your dataset
 to be square.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>input_dt</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>data.table</span><span class='kw ns'>::</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table</a></span>(<span class='kw'>location</span> <span class='kw'>=</span> <span class='st'>"France"</span>, <span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2010</span>,
-                                   <span class='kw'>sex</span> <span class='kw'>=</span> <span class='st'>"female"</span>,
-                                   <span class='kw'>age_start</span> <span class='kw'>=</span> <span class='fl'>0</span>:<span class='fl'>95</span>,
-                                   <span class='kw'>value1</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>value2</span> <span class='kw'>=</span> <span class='fl'>4</span>)
-<span class='no'>id_cols</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"location"</span>, <span class='st'>"year"</span>, <span class='st'>"sex"</span>, <span class='st'>"age_start"</span>)
-<span class='no'>non_unique_dt</span> <span class='kw'>&lt;-</span> <span class='fu'>identify_non_unique_dt</span>(<span class='no'>input_dt</span>, <span class='no'>id_cols</span>)
-<span class='fu'>assert_is_unique_dt</span>(<span class='no'>input_dt</span>, <span class='no'>id_cols</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+    <pre class="examples"><div class='input'><span class='kw'>input_dt</span> <span class='op'>&lt;-</span> <span class='kw'>data.table</span>::<span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table</a></span>(location = <span class='st'>"France"</span>, year = <span class='fl'>2010</span>,
+                                   sex = <span class='st'>"female"</span>,
+                                   age_start = <span class='fl'>0</span><span class='op'>:</span><span class='fl'>95</span>,
+                                   value1 = <span class='fl'>2</span>, value2 = <span class='fl'>4</span>)
+<span class='kw'>id_cols</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"location"</span>, <span class='st'>"year"</span>, <span class='st'>"sex"</span>, <span class='st'>"age_start"</span>)
+<span class='kw'>non_unique_dt</span> <span class='op'>&lt;-</span> <span class='fu'>identify_non_unique_dt</span>(<span class='kw'>input_dt</span>, <span class='kw'>id_cols</span>)
+<span class='fu'>assert_is_unique_dt</span>(<span class='kw'>input_dt</span>, <span class='kw'>id_cols</span>)
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -186,7 +187,7 @@ to be square.</p></div>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>
