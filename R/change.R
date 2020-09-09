@@ -34,6 +34,15 @@
 #'
 #' @export
 pct_change <- function(x, y, denominator = 100) {
+
+  assertthat::assert_that(
+    is.numeric(x), is.numeric(y),
+    length(x) == length(y),
+    msg = "`x` and `y` should be numerics of the same length"
+  )
+
+  assertthat::assert_that(assertthat::is.number(denominator))
+
   return(denominator * (y - x) / x)
 }
 
@@ -82,6 +91,14 @@ pct_change <- function(x, y, denominator = 100) {
 #'
 #' @export
 arc <- function(years, values, denominator = 100) {
+
+  assertthat::assert_that(
+    is.numeric(years), is.numeric(values),
+    length(years) == length(values),
+    msg = "`years` and `values` should be numerics of the same length"
+  )
+
+  assertthat::assert_that(assertthat::is.number(denominator))
 
   # create offset list
   values_offset <- shift(values)
