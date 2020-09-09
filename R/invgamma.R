@@ -7,7 +7,7 @@
 #'
 #' @return numeric vector of length \code{n}.
 #'
-#' @example
+#' @examples
 #' rinvgamma(10, 0.5, 0.01)
 #'
 #' @export
