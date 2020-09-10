@@ -23,3 +23,7 @@ numeric vector of length \code{n}.
 Random generation for the Inverse Gamma distribution with
 parameters \code{shape} (alpha) and \code{scale} (beta).
 }
+\examples{
+rinvgamma(10, 0.5, 0.01)
+
+}
