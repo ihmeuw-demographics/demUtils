@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate summary statistics — summarize_dt • demUtils</title>
+<title>Calculate annualized rate of change (ARC) — arc • demUtils</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,10 @@
 
 
 
-<meta property="og:title" content="Calculate summary statistics — summarize_dt" />
-<meta property="og:description" content="Calculate summary statistics when collapsing over a certain
-variable. For example can calculate summary statistics across a set of
-draws, or locations, or location-years, etc." />
+<meta property="og:title" content="Calculate annualized rate of change (ARC) — arc" />
+<meta property="og:description" content="Calculate annualized rate of change from one vector which
+includes numeric year and another vector which includes values of some
+measure for those years." />
 
 
 
@@ -122,97 +122,76 @@ draws, or locations, or location-years, etc." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate summary statistics</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ihmeuw-demographics/demUtils/blob/master/R/summarize_dt.R'><code>R/summarize_dt.R</code></a></small>
-    <div class="hidden name"><code>summarize_dt.Rd</code></div>
+    <h1>Calculate annualized rate of change (ARC)</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ihmeuw-demographics/demUtils/blob/master/R/change.R'><code>R/change.R</code></a></small>
+    <div class="hidden name"><code>arc.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Calculate summary statistics when collapsing over a certain
-variable. For example can calculate summary statistics across a set of
-draws, or locations, or location-years, etc.</p>
+    <p>Calculate annualized rate of change from one vector which
+includes numeric year and another vector which includes values of some
+measure for those years.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>summarize_dt</span>(
-  <span class='kw'>dt</span>,
-  <span class='kw'>id_cols</span>,
-  <span class='kw'>summarize_cols</span>,
-  <span class='kw'>value_col</span>,
-  summary_fun = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mean"</span>),
-  probs = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.025</span>, <span class='fl'>0.975</span>)
-)</pre>
+    <pre class="usage"><span class='fu'>arc</span>(<span class='kw'>years</span>, <span class='kw'>values</span>, denominator = <span class='fl'>100</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dt</th>
-      <td><p>[<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table()</a></code>]<br />
-Data to calculate summary statistics for.</p></td>
-    </tr>
-    <tr>
-      <th>id_cols</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>]<br />
-ID columns that uniquely identify each row of <code>dt</code>.</p></td>
-    </tr>
-    <tr>
-      <th>summarize_cols</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>]<br />
-The <code>id_cols</code> that should be collapsed and to calculate summary statistics
-over.</p></td>
-    </tr>
-    <tr>
-      <th>value_col</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>]<br />
-Value column that summary statistics should be calculated for.</p></td>
-    </tr>
-    <tr>
-      <th>summary_fun</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>]<br />
-Names of the functions that can be used to summarize a vector of values.
-Default is "mean".</p></td>
-    </tr>
-    <tr>
-      <th>probs</th>
+      <th>years</th>
       <td><p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>]<br />
-Probabilities with values in <code>[0,1]</code> to be used when producing sample
-quantiles with <code><a href='https://rdrr.io/r/stats/quantile.html'>stats::quantile()</a></code>. Default is 0.025 and 0.975 for the
-2.5th and 97.5th quantiles. Can be NULL if no quantiles are needed.</p></td>
+Years corresponding to input values</p></td>
+    </tr>
+    <tr>
+      <th>values</th>
+      <td><p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>]<br />
+Input values for some measure evaluated over time</p></td>
+    </tr>
+    <tr>
+      <th>denominator</th>
+      <td><p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>]<br />
+Default to 100 for percent (ex: 20%). Specify denominator = 1 to get
+annualized rate of change as a decimal (ex: 0.20).</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>[<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table()</a></code>] with <code>id_cols</code> (minus the <code>summarize_cols</code>) plus
-summary statistic columns. The summary statistic columns have the same name
-as each function specified in <code>summary_fun</code> and the quantiles are named
-like 'q_<code>(probs * 100)</code>'.</p>
+    <p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>]<br />
+Annualized rate of change for the intervals between elements of <code>years</code>.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code>summary_fun</code> correspond to names of functions in R that can take a vector of
-values and reduce to one summary statistic. This can also include user
-defined functions specified in the global environment.</p>
-<p>The <code>probs</code> argument is used to specify the probabilities to calculate sample
-quantiles for using the <code><a href='https://rdrr.io/r/stats/quantile.html'>stats::quantile()</a></code> function. The default 2.5 and
-97.5 quantiles would have columns named 'q2.5' and 'q97.5' in the returned
-data.table.</p>
+    <p>ARC for the period between years i and j is calculated as:
+$$arc[i,j] = 100 * ln(value_j / value_i) / (year_j - year_i)$$
+Index is such that for index i, <code>output[i]</code> is arc for period <code>years[i - 1]</code>
+to <code>years[i]</code> and the first entry in the output is <code>NA</code>.
+This function does not sort <code>years</code> so users should check inputs are
+ordered correctly.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'>
+<ul>
+<li><p>Preston Demography textbook Chapter 1</p></li>
+<li><p>https://www.un.org/esa/sustdev/natlinfo/indicators/methodology_sheets/demographics/population_growth_rate.pdf</p></li>
+</ul>
+</div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>input_dt</span> <span class='op'>&lt;-</span> <span class='kw'>data.table</span>::<span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table</a></span>(location = <span class='st'>"USA"</span>,
-                                   draw = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>101</span>,
-                                   value = <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>)
-<span class='kw'>output_dt</span> <span class='op'>&lt;-</span> <span class='fu'>summarize_dt</span>(dt = <span class='kw'>input_dt</span>,
-                          id_cols = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"location"</span>, <span class='st'>"draw"</span>),
-                          summarize_cols = <span class='st'>"draw"</span>,
-                          value_col = <span class='st'>"value"</span>)
-
-<span class='co'># no quantiles calculated</span>
-<span class='kw'>output_dt</span> <span class='op'>&lt;-</span> <span class='fu'>summarize_dt</span>(dt = <span class='kw'>input_dt</span>,
-                          id_cols = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"location"</span>, <span class='st'>"draw"</span>),
-                          summarize_cols = <span class='st'>"draw"</span>,
-                          value_col = <span class='st'>"value"</span>,
-                          probs = <span class='kw'>NULL</span>)
-
+    <pre class="examples"><div class='input'><span class='co'># vectors</span>
+<span class='fu'>arc</span>(years = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2000</span>, <span class='fl'>2005</span>, <span class='fl'>2010</span>), values = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>10</span>, <span class='fl'>20</span>, <span class='fl'>25</span>))
+</div><div class='output co'>#&gt; [1]       NA 46.05170 32.18876</div><div class='input'>
+<span class='co'># data.table</span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://r-datatable.com'>data.table</a></span>)
+<span class='kw'>dt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table</a></span>(
+  year = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2000</span>, <span class='fl'>2005</span>, <span class='fl'>2010</span>),
+  val = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>10</span>, <span class='fl'>20</span>, <span class='fl'>25</span>)
+)
+<span class='kw'>dt</span>[, <span class='kw'>arc</span> <span class='op'>:=</span> <span class='fu'>arc</span>(years = <span class='kw'>year</span>, values = <span class='kw'>val</span>)]
+</div><div class='output co'>#&gt;    year val      arc
+#&gt; 1: 2000  10       NA
+#&gt; 2: 2005  20 46.05170
+#&gt; 3: 2010  25 32.18876</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
