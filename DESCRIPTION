@@ -32,6 +32,6 @@ Imports:
 Config/reticulate:
   list(
     packages = list(
-      list(package = "PyPDF2")
+      list(package = "PyPDF2", pip = TRUE)
     )
   )
