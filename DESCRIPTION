@@ -29,3 +29,9 @@ Imports:
     methods,
     fs,
     reticulate
+Config/reticulate:
+  list(
+    packages = list(
+      list(package = "PyPDF2")
+    )
+  )
