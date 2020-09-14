@@ -24,5 +24,10 @@ combine_pdfs <- function(input_paths, output_path) {
   assertthat::assert_that(all(fs::file_exists(input_paths)))
   assertthat::assert_that(fs::dir_exists(fs::path_dir(output_path)))
 
+  # load `combine_pdfs_py` into environment
+  reticulate::source_python(
+    file = system.file("python/combine_pdfs.py", package = utils::packageName())
+  )
+
   combine_pdfs_py(input_paths, output_path)
 }

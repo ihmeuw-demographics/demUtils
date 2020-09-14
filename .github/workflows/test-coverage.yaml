@@ -20,9 +20,10 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@master
 
-      - uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
+      - name: Install reticulate dependencies
+        run: |
+          Rscript -e "reticulate::install_miniconda()"
+          Rscript -e "reticulate::conda_create('r-reticulate')"
 
       - name: Query dependencies
         run: |
