@@ -1,6 +1,6 @@
 import PyPDF2
 
-def combine_pdfs_PyPDF2(input_paths, output_path):
+def combine_pdfs_py(input_paths, output_path):
   """Combine PDFs into a single file
     Parameters
     ----------

@@ -24,5 +24,5 @@ combine_pdfs <- function(input_paths, output_path) {
   assertthat::assert_that(all(fs::file_exists(input_paths)))
   assertthat::assert_that(fs::dir_exists(fs::path_dir(output_path)))
 
-  combine_pdfs_PyPDF2(input_paths, output_path)
+  combine_pdfs_py(input_paths, output_path)
 }
