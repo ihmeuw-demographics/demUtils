@@ -26,4 +26,12 @@ Imports:
     assertthat,
     assertive,
     assertable (>= 0.2.7),
-    methods
+    methods,
+    fs,
+    reticulate
+Config/reticulate:
+  list(
+    packages = list(
+      list(package = "PyPDF2", pip = TRUE)
+    )
+  )

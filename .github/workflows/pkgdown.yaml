@@ -36,6 +36,11 @@ jobs:
           install.packages("pkgdown")
         shell: Rscript {0}
 
+      - name: Install reticulate dependencies
+        run: |
+          Rscript -e "reticulate::install_miniconda()"
+          Rscript -e "reticulate::conda_create('r-reticulate')"
+
       - name: Install package
         run: R CMD INSTALL .
 
