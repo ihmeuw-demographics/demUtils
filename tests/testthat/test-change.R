@@ -32,13 +32,13 @@ testthat::test_that("arc works", {
 
   # vector
   testthat::expect_equivalent(
-    arc(years, values), c(NA, 46.05, 32.19), tolerance = 0.02
+    arc(years, values), c(NA, 13.86, 4.46), tolerance = 0.02
   )
 
   # data.table
   output <- dt[, arc := arc(years = years, values = values)]
   testthat::expect_equivalent(
-    output$arc, c(NA, 46.05, 32.19), tolerance = 0.02
+    output$arc, c(NA, 13.86, 4.46), tolerance = 0.02
   )
 
   # data.table with ID cols
@@ -50,7 +50,7 @@ testthat::test_that("arc works", {
 
   output <- dt[, arc := arc(years = years, values = values), by = "sex"]
   testthat::expect_equivalent(
-    output$arc, rep(c(NA, 46.05, 32.19), 2), tolerance = 0.02
+    output$arc, rep(c(NA, 13.86, 4.46), 2), tolerance = 0.02
   )
 
 })

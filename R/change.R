@@ -106,7 +106,7 @@ arc <- function(years, values, denominator = 100) {
 
   # calculate ARC
   output <- denominator *
-            log(values - values_offset) /
+            log(values / values_offset) /
             (years - years_offset)
 
   return(output)
