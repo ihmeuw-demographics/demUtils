@@ -42,9 +42,6 @@ Values outside the bounds of known data will be returned as NA. Use
 \code{\link[demUtils:extrapolate]{demUtils::extrapolate()}} to get values outside of the bounds of the data.
 Consider log transforming your data prior to interpolation if
 appropriate.
-
-For reference, see page 12 of the Preston Demography book, or,
-https://www.un.org/esa/sustdev/natlinfo/indicators/methodology_sheets/demographics/population_growth_rate.pdf
 }
 \examples{
 dt <- data.table::data.table(

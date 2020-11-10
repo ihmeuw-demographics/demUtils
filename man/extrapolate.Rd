@@ -57,6 +57,10 @@ Extrapolate to dimensions beyond the range of those which
 exist in your data.table. Uses linear, rate of change, or uniform
 extrapolation.
 }
+\details{
+For reference on rate of change, see page 12 of the Preston Demography book, or,
+https://www.un.org/esa/sustdev/natlinfo/indicators/methodology_sheets/demographics/population_growth_rate.pdf
+}
 \examples{
 dt <- data.table::data.table(
   group = c(rep("a", 5), rep("b", 5)),

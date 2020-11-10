@@ -26,9 +26,6 @@
 #'   Consider log transforming your data prior to interpolation if
 #'   appropriate.
 #'
-#'   For reference, see page 12 of the Preston Demography book, or,
-#'   https://www.un.org/esa/sustdev/natlinfo/indicators/methodology_sheets/demographics/population_growth_rate.pdf
-#'
 #' @return \[`data.table()`\] `dt` with added rows for interpolated values.
 #'
 #' @examples
@@ -142,6 +139,10 @@ interpolate <- function(dt,
 #'   depending on the direction of extrapolation. Example: for extrapolation
 #'   from years 1990:2000 up to year 2020 with `n_groups_fit` = 5, only
 #'   years 1995:2000 will be used to fit the extrapolation model.
+#'
+#' @details
+#' For reference on rate of change, see page 12 of the Preston Demography book, or,
+#' https://www.un.org/esa/sustdev/natlinfo/indicators/methodology_sheets/demographics/population_growth_rate.pdf
 #'
 #' @return \[`data.table()`\] `dt` with added rows for extrapolated values.
 #'
