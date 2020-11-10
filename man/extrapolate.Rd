@@ -31,8 +31,8 @@ Name of a column of \code{dt} which is a numeric variable defining the values
 you would like to extrapolate.}
 
 \item{extrapolate_vals}{[\code{numeric(1)}]\cr
-The values of \code{extrapolate_col} for which you would like to solve for
-an extrapolate value of \code{value_col}.}
+The values of \code{extrapolate_col} that you would like included in the
+outputs, including both input values and extrapolated values.}
 
 \item{method}{[\code{characher(1)}]\cr
 The method for extrapolation. Must be either 'linear', 'rate_of_change',

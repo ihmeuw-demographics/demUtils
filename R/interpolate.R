@@ -18,12 +18,16 @@
 #' @param interpolate_vals \[`numeric(1)`\]\cr
 #'   The values of `interpolate_col` for which you would like to solve for
 #'   an interpolated value of `value_col`.
+#' @param ... Other arguments to be passed to `stats::approx`.
 #'
 #' @details This function uses `stats::approx` to solve a linear interpolation.
 #'   Values outside the bounds of known data will be returned as NA. Use
 #'   [demUtils::extrapolate()] to get values outside of the bounds of the data.
 #'   Consider log transforming your data prior to interpolation if
 #'   appropriate.
+#'
+#'   For reference, see page 12 of the Preston Demography book, or,
+#'   https://www.un.org/esa/sustdev/natlinfo/indicators/methodology_sheets/demographics/population_growth_rate.pdf
 #'
 #' @return \[`data.table()`\] `dt` with added rows for interpolated values.
 #'
@@ -37,8 +41,12 @@
 #'                   value_col = "y", interpolate_vals = c(1:10))
 #'
 #' @export
-interpolate <- function(dt, id_cols, interpolate_col, value_col,
-                        interpolate_vals) {
+interpolate <- function(dt,
+                        id_cols,
+                        interpolate_col,
+                        value_col,
+                        interpolate_vals,
+                        ...) {
 
   dt <- copy(dt)
 
@@ -80,31 +88,21 @@ interpolate <- function(dt, id_cols, interpolate_col, value_col,
                  "the range of `interpolate_vals`.")
   )
 
-  # expand ------------------------------------------------------------------
-
-  # fill in NAs
-  expand_cols <- list(temp = interpolate_vals)
-  names(expand_cols) <- interpolate_col
-  dt <- expand(dt, expand_cols = expand_cols, id_cols = id_cols)
-
   # interpolate -------------------------------------------------------------
 
-  dt <- dt[order(get(interpolate_col))]
-  dt <- rbindlist(
-    lapply(
-      split(dt, by = setdiff(id_cols, interpolate_col)),
-      FUN = function(d) {
-        d$temp <- stats::approx(
-          x = d[, get(interpolate_col)],
-          y = d[, get(value_col)],
-          xout = d[, get(interpolate_col)]
-        )$y
-        d[, c(value_col) := NULL]
-        setnames(d, "temp", value_col)
-        return(d)
-      }
-    )
-  )
+  dt <- dt[
+    ,
+    list(
+      x = interpolate_vals,
+      y = stats::approx(
+        x = get(interpolate_col),
+        y = get(value_col),
+        xout = interpolate_vals,
+        ...
+      )$y
+    ),
+    by = setdiff(id_cols, interpolate_col)
+  ]
 
   return(dt)
 
@@ -129,8 +127,8 @@ interpolate <- function(dt, id_cols, interpolate_col, value_col,
 #'   Name of a column of `dt` which is a numeric variable defining the values
 #'   you would like to extrapolate.
 #' @param extrapolate_vals \[`numeric(1)`\]\cr
-#'   The values of `extrapolate_col` for which you would like to solve for
-#'   an extrapolate value of `value_col`.
+#'   The values of `extrapolate_col` that you would like included in the
+#'   outputs, including both input values and extrapolated values.
 #' @param method \[`characher(1)`\]\cr
 #'   The method for extrapolation. Must be either 'linear', 'rate_of_change',
 #'   or 'uniform'.
@@ -158,8 +156,13 @@ interpolate <- function(dt, id_cols, interpolate_col, value_col,
 #'                   method = "linear", n_groups_fit = 3)
 #'
 #' @export
-extrapolate <- function(dt, id_cols, extrapolate_col, value_col,
-                        extrapolate_vals, method, n_groups_fit) {
+extrapolate <- function(dt,
+                        id_cols,
+                        extrapolate_col,
+                        value_col,
+                        extrapolate_vals,
+                        method,
+                        n_groups_fit) {
 
   dt <- copy(dt)
 
@@ -199,6 +202,14 @@ extrapolate <- function(dt, id_cols, extrapolate_col, value_col,
     msg = "`extrapolate_vals` are not outside of the range of the data."
   )
 
+  # TEMPORARY: check that we aren't asking for backwards extrapolation
+  # TODO: update function work for backwards extrapolation (demUtils issue #26)
+  assertthat::assert_that(
+    !(min(extrapolate_vals) < lb),
+    msg = paste0("For now, extrapolation for `extrapolate_vals` lower than ",
+                 "the range of the data is not supported.")
+  )
+
   # check `method`
   methods <- c("linear", "rate_of_change", "uniform")
   assertthat::assert_that(
@@ -228,7 +239,7 @@ extrapolate <- function(dt, id_cols, extrapolate_col, value_col,
       FUN = function(d) {
 
         setnames(d, c(extrapolate_col, value_col), c("x", "y"))
-        # TODO: make this extrapolation work backwards as well
+
         # subset to `n_groups_fit` groups
         fit_data <- copy(d)
         fit_data <- fit_data[!is.na(y)]
@@ -315,7 +326,9 @@ extrapolate <- function(dt, id_cols, extrapolate_col, value_col,
 #'              id_cols = c("location", "year"))
 #'
 #' @export
-expand <- function(dt, expand_cols, id_cols) {
+expand <- function(dt,
+                   expand_cols,
+                   id_cols) {
 
   dt <- copy(dt)
 

@@ -23,8 +23,9 @@ testthat::test_that("pct_change works", {
 
 # arc ---------------------------------------------------------------------
 
-years <- c(2000, 2005, 2010)
-values <- c(10, 20, 25)
+# example from Preston Demography book page 17
+years <- c(0, 5, 10)
+values <- c(100000, 116183, 134986)
 
 dt <- data.table(years = years, values = values)
 
@@ -32,13 +33,13 @@ testthat::test_that("arc works", {
 
   # vector
   testthat::expect_equivalent(
-    arc(years, values), c(NA, 13.86, 4.46), tolerance = 0.02
+    arc(years, values, denominator = 1), c(NA, 0.03, 0.03), tolerance = 0.01
   )
 
   # data.table
-  output <- dt[, arc := arc(years = years, values = values)]
+  output <- dt[, arc := arc(years = years, values = values, denominator = 1)]
   testthat::expect_equivalent(
-    output$arc, c(NA, 13.86, 4.46), tolerance = 0.02
+    output$arc, c(NA, 0.03, 0.03), tolerance = 0.01
   )
 
   # data.table with ID cols
@@ -48,9 +49,9 @@ testthat::test_that("arc works", {
   dt2$sex <- "female"
   dt <- rbind(dt1, dt2)
 
-  output <- dt[, arc := arc(years = years, values = values), by = "sex"]
+  output <- dt[, arc := arc(years = years, values = values, denominator = 1), by = "sex"]
   testthat::expect_equivalent(
-    output$arc, rep(c(NA, 13.86, 4.46), 2), tolerance = 0.02
+    output$arc, rep(c(NA, 0.03, 0.03), 2), tolerance = 0.01
   )
 
 })

@@ -4,7 +4,7 @@
 \alias{interpolate}
 \title{Interpolate}
 \usage{
-interpolate(dt, id_cols, interpolate_col, value_col, interpolate_vals)
+interpolate(dt, id_cols, interpolate_col, value_col, interpolate_vals, ...)
 }
 \arguments{
 \item{dt}{[\code{data.table()}]\cr
@@ -26,6 +26,8 @@ you would like to interpolate.}
 \item{interpolate_vals}{[\code{numeric(1)}]\cr
 The values of \code{interpolate_col} for which you would like to solve for
 an interpolated value of \code{value_col}.}
+
+\item{...}{Other arguments to be passed to \code{stats::approx}.}
 }
 \value{
 [\code{data.table()}] \code{dt} with added rows for interpolated values.
@@ -40,6 +42,9 @@ Values outside the bounds of known data will be returned as NA. Use
 \code{\link[demUtils:extrapolate]{demUtils::extrapolate()}} to get values outside of the bounds of the data.
 Consider log transforming your data prior to interpolation if
 appropriate.
+
+For reference, see page 12 of the Preston Demography book, or,
+https://www.un.org/esa/sustdev/natlinfo/indicators/methodology_sheets/demographics/population_growth_rate.pdf
 }
 \examples{
 dt <- data.table::data.table(
