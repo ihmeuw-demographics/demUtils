@@ -79,8 +79,7 @@ interpolate <- function(dt,
   lb <- min(dt[, get(interpolate_col)])
   ub <- max(dt[, get(interpolate_col)])
   assertthat::assert_that(
-    between(min(interpolate_vals), lb, ub) |
-      between(max(interpolate_vals), lb, ub),
+    any(between(interpolate_vals, lb, ub)),
     msg = paste0("There is no overlap between the range of your data and ",
                  "the range of `interpolate_vals`.")
   )
@@ -100,6 +99,7 @@ interpolate <- function(dt,
     ),
     by = setdiff(id_cols, interpolate_col)
   ]
+  setnames(dt, c("x", "y"), c(interpolate_col, value_col))
 
   return(dt)
 
