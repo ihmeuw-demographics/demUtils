@@ -24,9 +24,9 @@ combine_pdfs <- function(input_paths, output_path) {
   assertthat::assert_that(all(fs::file_exists(input_paths)))
   assertthat::assert_that(fs::dir_exists(fs::path_dir(output_path)))
 
-  # replace `~` with users home directory for PyPDF2
-  input_paths <- fs::path_expand(input_paths)
-  output_path <- fs::path_expand(output_path)
+  # eliminate any symbolic links and special references like '~' or '..' for PyPDF2
+  input_paths <- fs::path_real(input_paths)
+  output_path <- fs::path_real(output_path)
 
   # load `combine_pdfs_py` into environment
   combine_pdfs_py_fpath <- system.file(
