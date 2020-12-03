@@ -74,6 +74,8 @@ jobs:
       - name: Install python package dependencies
         run: |
           python3 -m pip --no-cache-dir install --upgrade PyPDF2
+          Rscript -e "reticulate::install_miniconda()"
+          Rscript -e "reticulate::conda_create('r-reticulate')"
 
       - name: Check
         env:
