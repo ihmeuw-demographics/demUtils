@@ -67,10 +67,13 @@ jobs:
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
 
-      - name: Install reticulate dependencies
+      - uses actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install python package dependencies
         run: |
-          Rscript -e "reticulate::install_miniconda()"
-          Rscript -e "reticulate::conda_create('r-reticulate')"
+          python3 -m pip --no-cache-dir install --upgrade PyPDF2
 
       - name: Check
         env:
