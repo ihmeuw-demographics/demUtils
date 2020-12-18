@@ -139,10 +139,15 @@ interpolate <- function(dt,
 #'   depending on the direction of extrapolation. Example: for extrapolation
 #'   from years 1990:2000 up to year 2020 with `n_groups_fit` = 5, only
 #'   years 1995:2000 will be used to fit the extrapolation model.
+#' @param n_groups_bin \[`numeric(1)`\]\cr
+#'   TODO: add option to bin groups before fitting linear model or calculating
+#'   rate of change.
 #'
 #' @details
 #' For reference on rate of change, see page 12 of the Preston Demography book, or,
 #' https://www.un.org/esa/sustdev/natlinfo/indicators/methodology_sheets/demographics/population_growth_rate.pdf
+#'
+#' Consider log transforming your data prior to extrapolation if appropriate.
 #'
 #' @return \[`data.table()`\] `dt` with added rows for extrapolated values.
 #'
@@ -163,7 +168,8 @@ extrapolate <- function(dt,
                         value_col,
                         extrapolate_vals,
                         method,
-                        n_groups_fit) {
+                        n_groups_fit,
+                        n_groups_bin = NULL) {
 
   dt <- copy(dt)
 
@@ -196,6 +202,7 @@ extrapolate <- function(dt,
 
   # check `extrapolate_vals`
   assertthat::assert_that(is.numeric(extrapolate_vals))
+  assertthat::assert_that(length(extrapolate_col) == 1)
   lb <- min(dt[, get(extrapolate_col)])
   ub <- max(dt[, get(extrapolate_col)])
   assertthat::assert_that(
@@ -223,12 +230,13 @@ extrapolate <- function(dt,
   # check `n_groups_fit`
   assertthat::assert_that(assertthat::is.count(n_groups_fit))
 
-  # expand ------------------------------------------------------------------
-
-  # fill in NAs
-  expand_cols <- list(temp = extrapolate_vals)
-  names(expand_cols) <- extrapolate_col
-  dt <- expand(dt, expand_cols = expand_cols, id_cols = id_cols)
+  # TEMPORARY: check that `n_groups_bin` is NULL for now
+  # TODO: add this feature
+  # https://github.com/ihmeuw-demographics/demUtils/issues/29
+  assertthat::assert_that(
+    is.null(n_groups_bin),
+    msg = "`n_groups_bin` must be NULL, since this feature is not yet supported."
+  )
 
   # extrapolate -------------------------------------------------------------
 
@@ -238,6 +246,11 @@ extrapolate <- function(dt,
     lapply(
       split(dt, by = setdiff(id_cols, extrapolate_col)),
       FUN = function(d) {
+
+        # expand data and fill in NAs for rows to be extrapolated to
+        expand_cols <- list(temp = extrapolate_vals)
+        names(expand_cols) <- extrapolate_col
+        d <- expand(d, expand_cols = expand_cols, id_cols = id_cols)
 
         setnames(d, c(extrapolate_col, value_col), c("x", "y"))
 
@@ -252,7 +265,9 @@ extrapolate <- function(dt,
 
           # fit and predict linear model
           fit <- stats::lm(data = fit_data, y ~ x)
-          d$y <- stats::predict(fit, newdata = d)
+          d$y_new <- stats::predict(fit, newdata = d)
+          d[is.na(y), y := y_new]
+          d[, y_new := NULL]
 
         } else if (method == "rate_of_change") {
 

@@ -39,7 +39,7 @@ dimensions which exist. Uses linear interpolation.
 \details{
 This function uses \code{stats::approx} to solve a linear interpolation.
 Values outside the bounds of known data will be returned as NA. Use
-\code{\link[demUtils:extrapolate]{demUtils::extrapolate()}} to get values outside of the bounds of the data.
+\code{\link[=extrapolate]{extrapolate()}} to get values outside of the bounds of the data.
 Consider log transforming your data prior to interpolation if
 appropriate.
 }
