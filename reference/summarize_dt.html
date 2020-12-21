@@ -82,7 +82,7 @@ draws, or locations, or location-years, etc." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -105,7 +105,7 @@ draws, or locations, or location-years, etc." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ihmeuw-demographics/demUtils/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -133,14 +133,14 @@ variable. For example can calculate summary statistics across a set of
 draws, or locations, or location-years, etc.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>summarize_dt</span>(
-  <span class='kw'>dt</span>,
-  <span class='kw'>id_cols</span>,
-  <span class='kw'>summarize_cols</span>,
-  <span class='kw'>value_col</span>,
-  summary_fun = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mean"</span>),
-  probs = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.025</span>, <span class='fl'>0.975</span>)
-)</pre>
+    <pre class="usage"><span class='fu'>summarize_dt</span><span class='op'>(</span>
+  <span class='va'>dt</span>,
+  <span class='va'>id_cols</span>,
+  <span class='va'>summarize_cols</span>,
+  <span class='va'>value_col</span>,
+  summary_fun <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"mean"</span><span class='op'>)</span>,
+  probs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.025</span>, <span class='fl'>0.975</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -198,20 +198,20 @@ quantiles for using the <code><a href='https://rdrr.io/r/stats/quantile.html'>st
 data.table.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>input_dt</span> <span class='op'>&lt;-</span> <span class='kw'>data.table</span>::<span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table</a></span>(location = <span class='st'>"USA"</span>,
-                                   draw = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>101</span>,
-                                   value = <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>)
-<span class='kw'>output_dt</span> <span class='op'>&lt;-</span> <span class='fu'>summarize_dt</span>(dt = <span class='kw'>input_dt</span>,
-                          id_cols = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"location"</span>, <span class='st'>"draw"</span>),
-                          summarize_cols = <span class='st'>"draw"</span>,
-                          value_col = <span class='st'>"value"</span>)
+    <pre class="examples"><div class='input'><span class='va'>input_dt</span> <span class='op'>&lt;-</span> <span class='fu'>data.table</span><span class='fu'>::</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table</a></span><span class='op'>(</span>location <span class='op'>=</span> <span class='st'>"USA"</span>,
+                                   draw <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>101</span>,
+                                   value <span class='op'>=</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span><span class='op'>)</span>
+<span class='va'>output_dt</span> <span class='op'>&lt;-</span> <span class='fu'>summarize_dt</span><span class='op'>(</span>dt <span class='op'>=</span> <span class='va'>input_dt</span>,
+                          id_cols <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"location"</span>, <span class='st'>"draw"</span><span class='op'>)</span>,
+                          summarize_cols <span class='op'>=</span> <span class='st'>"draw"</span>,
+                          value_col <span class='op'>=</span> <span class='st'>"value"</span><span class='op'>)</span>
 
 <span class='co'># no quantiles calculated</span>
-<span class='kw'>output_dt</span> <span class='op'>&lt;-</span> <span class='fu'>summarize_dt</span>(dt = <span class='kw'>input_dt</span>,
-                          id_cols = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"location"</span>, <span class='st'>"draw"</span>),
-                          summarize_cols = <span class='st'>"draw"</span>,
-                          value_col = <span class='st'>"value"</span>,
-                          probs = <span class='kw'>NULL</span>)
+<span class='va'>output_dt</span> <span class='op'>&lt;-</span> <span class='fu'>summarize_dt</span><span class='op'>(</span>dt <span class='op'>=</span> <span class='va'>input_dt</span>,
+                          id_cols <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"location"</span>, <span class='st'>"draw"</span><span class='op'>)</span>,
+                          summarize_cols <span class='op'>=</span> <span class='st'>"draw"</span>,
+                          value_col <span class='op'>=</span> <span class='st'>"value"</span>,
+                          probs <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
 </div></pre>
   </div>
@@ -229,7 +229,7 @@ data.table.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

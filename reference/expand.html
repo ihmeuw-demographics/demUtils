@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate annualized rate of change (ARC) — arc • demUtils</title>
+<title>Expand — expand • demUtils</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,9 @@
 
 
 
-<meta property="og:title" content="Calculate annualized rate of change (ARC) — arc" />
-<meta property="og:description" content="Calculate annualized rate of change from one vector which
-includes numeric year and another vector which includes values of some
-measure for those years." />
+<meta property="og:title" content="Expand — expand" />
+<meta property="og:description" content="Expands data.table to dimensions not already present, leaving
+value columns NA." />
 
 
 
@@ -122,76 +121,63 @@ measure for those years." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate annualized rate of change (ARC)</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ihmeuw-demographics/demUtils/blob/master/R/change.R'><code>R/change.R</code></a></small>
-    <div class="hidden name"><code>arc.Rd</code></div>
+    <h1>Expand</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ihmeuw-demographics/demUtils/blob/master/R/interpolate.R'><code>R/interpolate.R</code></a></small>
+    <div class="hidden name"><code>expand.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Calculate annualized rate of change from one vector which
-includes numeric year and another vector which includes values of some
-measure for those years.</p>
+    <p>Expands data.table to dimensions not already present, leaving
+value columns NA.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>arc</span><span class='op'>(</span><span class='va'>years</span>, <span class='va'>values</span>, denominator <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>expand</span><span class='op'>(</span><span class='va'>dt</span>, <span class='va'>expand_cols</span>, <span class='va'>id_cols</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>years</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>]<br />
-Years corresponding to input values</p></td>
+      <th>dt</th>
+      <td><p>[<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table()</a></code>]<br />
+Data set you would like to expand.</p></td>
     </tr>
     <tr>
-      <th>values</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>]<br />
-Input values for some measure evaluated over time</p></td>
+      <th>expand_cols</th>
+      <td><p>[<code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>]<br />
+A named list of vectors, where the name of each vector is a column of <code>dt</code>
+that you would like to expand (or a new column name) and the value within
+the vector are the values you want the column to take.
+Ex: expand_cols = list(draw = 1:100) would mean you want the returned
+data.table to have draws 1 through 100.</p></td>
     </tr>
     <tr>
-      <th>denominator</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>]<br />
-Default to 100 for percent (ex: 20%). Specify denominator = 1 to get
-annualized rate of change as a decimal (ex: 0.20).</p></td>
+      <th>id_cols</th>
+      <td><p>[<code>characher()</code>]<br />
+Columns which uniquely identify rows of <code>dt</code>. These columns will be copied
+over into the expanded rows.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>]<br />
-Annualized rate of change for the intervals between elements of <code>years</code>.</p>
+    <p><code>dt</code> with added rows for all combinations of
+<code>expand_cols</code> as specified. In new rows, entries of non-ID columns will
+be NA.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>ARC for the period between years i and j is calculated as:
-$$arc[i,j] = 100 * ln(value_j / value_i) / (year_j - year_i)$$
-Index is such that for index i, <code>output[i]</code> is arc for period <code>years[i - 1]</code>
-to <code>years[i]</code> and the first entry in the output is <code>NA</code>.
-This function does not sort <code>years</code> so users should check inputs are
-ordered correctly.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'>
-<ul>
-<li><p>Preston Demography textbook Chapter 1</p></li>
-<li><p>https://www.un.org/esa/sustdev/natlinfo/indicators/methodology_sheets/demographics/population_growth_rate.pdf</p></li>
-</ul>
-</div>
+    <p>This function is a wrapper for <code><a href='https://Rdatatable.gitlab.io/data.table/reference/J.html'>data.table::CJ()</a></code>.</p>
+<p>Syntax for example:
+<code>dt[CJ(year = 1990:2000, draw = c(1:2), location = "Mexico", unique = T), on = list(location, year)]</code></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># vectors</span>
-<span class='fu'>arc</span><span class='op'>(</span>years <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2000</span>, <span class='fl'>2005</span>, <span class='fl'>2010</span><span class='op'>)</span>, values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>20</span>, <span class='fl'>25</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1]        NA 13.862944  4.462871</div><div class='input'>
-<span class='co'># data.table</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://Rdatatable.gitlab.io/data.table'>data.table</a></span><span class='op'>)</span>
-<span class='va'>dt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table</a></span><span class='op'>(</span>
-  year <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2000</span>, <span class='fl'>2005</span>, <span class='fl'>2010</span><span class='op'>)</span>,
-  val <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>20</span>, <span class='fl'>25</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='va'>dt</span> <span class='op'>&lt;-</span> <span class='fu'>data.table</span><span class='fu'>::</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table</a></span><span class='op'>(</span>
+  location <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Mexico"</span><span class='op'>)</span>,
+  year <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1990</span><span class='op'>:</span><span class='fl'>1995</span><span class='op'>)</span>,
+  value <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>)</span>
 <span class='op'>)</span>
-<span class='va'>dt</span><span class='op'>[</span>, <span class='va'>arc</span> <span class='op'>:=</span> <span class='fu'>arc</span><span class='op'>(</span>years <span class='op'>=</span> <span class='va'>year</span>, values <span class='op'>=</span> <span class='va'>val</span><span class='op'>)</span><span class='op'>]</span>
-</div><div class='output co'>#&gt;    year val       arc
-#&gt; 1: 2000  10        NA
-#&gt; 2: 2005  20 13.862944
-#&gt; 3: 2010  25  4.462871</div><div class='input'>
+<span class='va'>dt</span> <span class='op'>&lt;-</span> <span class='fu'>expand</span><span class='op'>(</span><span class='va'>dt</span>, expand_cols <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>year <span class='op'>=</span> <span class='fl'>1990</span><span class='op'>:</span><span class='fl'>2000</span>, draw <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>,
+             id_cols <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"location"</span>, <span class='st'>"year"</span><span class='op'>)</span><span class='op'>)</span>
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

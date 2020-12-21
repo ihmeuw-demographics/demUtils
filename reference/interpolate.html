@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate annualized rate of change (ARC) — arc • demUtils</title>
+<title>Interpolate — interpolate • demUtils</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,9 @@
 
 
 
-<meta property="og:title" content="Calculate annualized rate of change (ARC) — arc" />
-<meta property="og:description" content="Calculate annualized rate of change from one vector which
-includes numeric year and another vector which includes values of some
-measure for those years." />
+<meta property="og:title" content="Interpolate — interpolate" />
+<meta property="og:description" content="Interpolate to dimensions missing in a data.table, between
+dimensions which exist. Uses linear interpolation." />
 
 
 
@@ -122,76 +121,77 @@ measure for those years." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate annualized rate of change (ARC)</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ihmeuw-demographics/demUtils/blob/master/R/change.R'><code>R/change.R</code></a></small>
-    <div class="hidden name"><code>arc.Rd</code></div>
+    <h1>Interpolate</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ihmeuw-demographics/demUtils/blob/master/R/interpolate.R'><code>R/interpolate.R</code></a></small>
+    <div class="hidden name"><code>interpolate.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Calculate annualized rate of change from one vector which
-includes numeric year and another vector which includes values of some
-measure for those years.</p>
+    <p>Interpolate to dimensions missing in a data.table, between
+dimensions which exist. Uses linear interpolation.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>arc</span><span class='op'>(</span><span class='va'>years</span>, <span class='va'>values</span>, denominator <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>interpolate</span><span class='op'>(</span><span class='va'>dt</span>, <span class='va'>id_cols</span>, <span class='va'>interpolate_col</span>, <span class='va'>value_col</span>, <span class='va'>interpolate_vals</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>years</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>]<br />
-Years corresponding to input values</p></td>
+      <th>dt</th>
+      <td><p>[<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table()</a></code>]<br />
+Data you would like to interpolate. Can either have NAs or be missing
+rows (implicit NAs).</p></td>
     </tr>
     <tr>
-      <th>values</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>]<br />
-Input values for some measure evaluated over time</p></td>
+      <th>id_cols</th>
+      <td><p>[<code>characher()</code>]<br />
+Columns which uniquely identify rows of <code>dt</code>. Interpolation will be
+done separately by group on <code>id_cols</code> excluding <code>interpolate_col</code>.</p></td>
     </tr>
     <tr>
-      <th>denominator</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>]<br />
-Default to 100 for percent (ex: 20%). Specify denominator = 1 to get
-annualized rate of change as a decimal (ex: 0.20).</p></td>
+      <th>interpolate_col</th>
+      <td><p>[<code>characher(1)</code>]<br />
+Name of column of <code>dt</code> which is a numeric variable defining the groups
+you would like to interpolate for.</p></td>
+    </tr>
+    <tr>
+      <th>value_col</th>
+      <td><p>[<code>characher(1)</code>]<br />
+Name of a column of <code>dt</code> which is a numeric variable defining the values
+you would like to interpolate.</p></td>
+    </tr>
+    <tr>
+      <th>interpolate_vals</th>
+      <td><p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>]<br />
+The values of <code>interpolate_col</code> for which you would like to solve for
+an interpolated value of <code>value_col</code>.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Other arguments to be passed to <code><a href='https://rdrr.io/r/stats/approxfun.html'>stats::approx</a></code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>]<br />
-Annualized rate of change for the intervals between elements of <code>years</code>.</p>
+    <p>[<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table()</a></code>] <code>dt</code> with added rows for interpolated values.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>ARC for the period between years i and j is calculated as:
-$$arc[i,j] = 100 * ln(value_j / value_i) / (year_j - year_i)$$
-Index is such that for index i, <code>output[i]</code> is arc for period <code>years[i - 1]</code>
-to <code>years[i]</code> and the first entry in the output is <code>NA</code>.
-This function does not sort <code>years</code> so users should check inputs are
-ordered correctly.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'>
-<ul>
-<li><p>Preston Demography textbook Chapter 1</p></li>
-<li><p>https://www.un.org/esa/sustdev/natlinfo/indicators/methodology_sheets/demographics/population_growth_rate.pdf</p></li>
-</ul>
-</div>
+    <p>This function uses <code><a href='https://rdrr.io/r/stats/approxfun.html'>stats::approx</a></code> to solve a linear interpolation.
+Values outside the bounds of known data will be returned as NA. Use
+<code><a href='extrapolate.html'>extrapolate()</a></code> to get values outside of the bounds of the data.
+Consider log transforming your data prior to interpolation if
+appropriate.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># vectors</span>
-<span class='fu'>arc</span><span class='op'>(</span>years <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2000</span>, <span class='fl'>2005</span>, <span class='fl'>2010</span><span class='op'>)</span>, values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>20</span>, <span class='fl'>25</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1]        NA 13.862944  4.462871</div><div class='input'>
-<span class='co'># data.table</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://Rdatatable.gitlab.io/data.table'>data.table</a></span><span class='op'>)</span>
-<span class='va'>dt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table</a></span><span class='op'>(</span>
-  year <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2000</span>, <span class='fl'>2005</span>, <span class='fl'>2010</span><span class='op'>)</span>,
-  val <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>20</span>, <span class='fl'>25</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='va'>dt</span> <span class='op'>&lt;-</span> <span class='fu'>data.table</span><span class='fu'>::</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table</a></span><span class='op'>(</span>
+  group <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>"a"</span>, <span class='fl'>5</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>"b"</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>,
+  x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>5</span>, <span class='fl'>10</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>6</span>, <span class='fl'>8</span>, <span class='fl'>10</span><span class='op'>)</span>,
+  y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>30</span>, <span class='fl'>40</span>, <span class='fl'>50</span>, <span class='fl'>100</span>, <span class='fl'>10</span>, <span class='fl'>20</span>, <span class='fl'>60</span>, <span class='fl'>80</span>, <span class='fl'>100</span><span class='op'>)</span>
 <span class='op'>)</span>
-<span class='va'>dt</span><span class='op'>[</span>, <span class='va'>arc</span> <span class='op'>:=</span> <span class='fu'>arc</span><span class='op'>(</span>years <span class='op'>=</span> <span class='va'>year</span>, values <span class='op'>=</span> <span class='va'>val</span><span class='op'>)</span><span class='op'>]</span>
-</div><div class='output co'>#&gt;    year val       arc
-#&gt; 1: 2000  10        NA
-#&gt; 2: 2005  20 13.862944
-#&gt; 3: 2010  25  4.462871</div><div class='input'>
+<span class='va'>dt</span> <span class='op'>&lt;-</span> <span class='fu'>interpolate</span><span class='op'>(</span><span class='va'>dt</span>, id_cols <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"group"</span>, <span class='st'>"x"</span><span class='op'>)</span>, interpolate_col <span class='op'>=</span> <span class='st'>"x"</span>,
+                  value_col <span class='op'>=</span> <span class='st'>"y"</span>, interpolate_vals <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span>
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
