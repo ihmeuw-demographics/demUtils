@@ -137,7 +137,7 @@ draws, or locations, or location-years, etc.</p>
   <span class='va'>dt</span>,
   <span class='va'>id_cols</span>,
   <span class='va'>summarize_cols</span>,
-  <span class='va'>value_col</span>,
+  <span class='va'>value_cols</span>,
   summary_fun <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"mean"</span><span class='op'>)</span>,
   probs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.025</span>, <span class='fl'>0.975</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
@@ -162,9 +162,11 @@ The <code>id_cols</code> that should be collapsed and to calculate summary stati
 over.</p></td>
     </tr>
     <tr>
-      <th>value_col</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>]<br />
-Value column that summary statistics should be calculated for.</p></td>
+      <th>value_cols</th>
+      <td><p>[<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>]<br />
+Value columns that summary statistics should be calculated for. When more
+than one column is specified, each of the summary statistic columns that
+are returned are prefixed with the value column name.</p></td>
     </tr>
     <tr>
       <th>summary_fun</th>
@@ -186,7 +188,9 @@ quantiles with <code><a href='https://rdrr.io/r/stats/quantile.html'>stats::quan
     <p>[<code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table()</a></code>] with <code>id_cols</code> (minus the <code>summarize_cols</code>) plus
 summary statistic columns. The summary statistic columns have the same name
 as each function specified in <code>summary_fun</code> and the quantiles are named
-like 'q_<code>(probs * 100)</code>'.</p>
+like 'q_<code>(probs * 100)</code>'. If more than one <code>value_cols</code> is specified, each
+of the summary statistic columns that are returned are prefixed with the
+value column name.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p><code>summary_fun</code> correspond to names of functions in R that can take a vector of
@@ -198,20 +202,22 @@ quantiles for using the <code><a href='https://rdrr.io/r/stats/quantile.html'>st
 data.table.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>input_dt</span> <span class='op'>&lt;-</span> <span class='fu'>data.table</span><span class='fu'>::</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table</a></span><span class='op'>(</span>location <span class='op'>=</span> <span class='st'>"USA"</span>,
-                                   draw <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>101</span>,
-                                   value <span class='op'>=</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span><span class='op'>)</span>
-<span class='va'>output_dt</span> <span class='op'>&lt;-</span> <span class='fu'>summarize_dt</span><span class='op'>(</span>dt <span class='op'>=</span> <span class='va'>input_dt</span>,
-                          id_cols <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"location"</span>, <span class='st'>"draw"</span><span class='op'>)</span>,
-                          summarize_cols <span class='op'>=</span> <span class='st'>"draw"</span>,
-                          value_col <span class='op'>=</span> <span class='st'>"value"</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='va'>input_dt</span> <span class='op'>&lt;-</span> <span class='fu'>data.table</span><span class='fu'>::</span><span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table</a></span><span class='op'>(</span>location <span class='op'>=</span> <span class='st'>"USA"</span>, draw <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>101</span>, value <span class='op'>=</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span><span class='op'>)</span>
+<span class='va'>output_dt</span> <span class='op'>&lt;-</span> <span class='fu'>summarize_dt</span><span class='op'>(</span>
+  dt <span class='op'>=</span> <span class='va'>input_dt</span>,
+  id_cols <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"location"</span>, <span class='st'>"draw"</span><span class='op'>)</span>,
+  summarize_cols <span class='op'>=</span> <span class='st'>"draw"</span>,
+  value_cols <span class='op'>=</span> <span class='st'>"value"</span>
+<span class='op'>)</span>
 
 <span class='co'># no quantiles calculated</span>
-<span class='va'>output_dt</span> <span class='op'>&lt;-</span> <span class='fu'>summarize_dt</span><span class='op'>(</span>dt <span class='op'>=</span> <span class='va'>input_dt</span>,
-                          id_cols <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"location"</span>, <span class='st'>"draw"</span><span class='op'>)</span>,
-                          summarize_cols <span class='op'>=</span> <span class='st'>"draw"</span>,
-                          value_col <span class='op'>=</span> <span class='st'>"value"</span>,
-                          probs <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+<span class='va'>output_dt</span> <span class='op'>&lt;-</span> <span class='fu'>summarize_dt</span><span class='op'>(</span>
+  dt <span class='op'>=</span> <span class='va'>input_dt</span>,
+  id_cols <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"location"</span>, <span class='st'>"draw"</span><span class='op'>)</span>,
+  summarize_cols <span class='op'>=</span> <span class='st'>"draw"</span>,
+  value_cols <span class='op'>=</span> <span class='st'>"value"</span>,
+  probs <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span>
 
 </div></pre>
   </div>
