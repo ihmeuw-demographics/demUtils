@@ -42,7 +42,9 @@ quantiles with \code{stats::quantile()}. Default is 0.025 and 0.975 for the
 [\code{data.table()}] with \code{id_cols} (minus the \code{summarize_cols}) plus
 summary statistic columns. The summary statistic columns have the same name
 as each function specified in \code{summary_fun} and the quantiles are named
-like 'q_\code{(probs * 100)}'.
+like 'q_\code{(probs * 100)}'. If more than one \code{value_cols} is specified, each
+of the summary statistic columns that are returned are prefixed with the
+value column name.
 }
 \description{
 Calculate summary statistics when collapsing over a certain

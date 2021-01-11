@@ -26,7 +26,9 @@
 #' @return \[`data.table()`\] with `id_cols` (minus the `summarize_cols`) plus
 #'   summary statistic columns. The summary statistic columns have the same name
 #'   as each function specified in `summary_fun` and the quantiles are named
-#'   like 'q_`(probs * 100)`'.
+#'   like 'q_`(probs * 100)`'. If more than one `value_cols` is specified, each
+#'   of the summary statistic columns that are returned are prefixed with the
+#'   value column name.
 #'
 #' @details
 #' `summary_fun` correspond to names of functions in R that can take a vector of
