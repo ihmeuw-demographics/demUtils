@@ -11,8 +11,10 @@
 #' @param summarize_cols \[`character()`\]\cr
 #'   The `id_cols` that should be collapsed and to calculate summary statistics
 #'   over.
-#' @param value_col \[`character(1)`\]\cr
-#'   Value column that summary statistics should be calculated for.
+#' @param value_cols \[`character()`\]\cr
+#'   Value columns that summary statistics should be calculated for. When more
+#'   than one column is specified, each of the summary statistic columns that
+#'   are returned are prefixed with the value column name.
 #' @param summary_fun \[`character()`\]\cr
 #'   Names of the functions that can be used to summarize a vector of values.
 #'   Default is "mean".
@@ -24,7 +26,9 @@
 #' @return \[`data.table()`\] with `id_cols` (minus the `summarize_cols`) plus
 #'   summary statistic columns. The summary statistic columns have the same name
 #'   as each function specified in `summary_fun` and the quantiles are named
-#'   like 'q_`(probs * 100)`'.
+#'   like 'q_`(probs * 100)`'. If more than one `value_cols` is specified, each
+#'   of the summary statistic columns that are returned are prefixed with the
+#'   value column name.
 #'
 #' @details
 #' `summary_fun` correspond to names of functions in R that can take a vector of
@@ -37,27 +41,29 @@
 #' data.table.
 #'
 #' @examples
-#' input_dt <- data.table::data.table(location = "USA",
-#'                                    draw = 1:101,
-#'                                    value = 0:100)
-#' output_dt <- summarize_dt(dt = input_dt,
-#'                           id_cols = c("location", "draw"),
-#'                           summarize_cols = "draw",
-#'                           value_col = "value")
+#' input_dt <- data.table::data.table(location = "USA", draw = 1:101, value = 0:100)
+#' output_dt <- summarize_dt(
+#'   dt = input_dt,
+#'   id_cols = c("location", "draw"),
+#'   summarize_cols = "draw",
+#'   value_cols = "value"
+#' )
 #'
 #' # no quantiles calculated
-#' output_dt <- summarize_dt(dt = input_dt,
-#'                           id_cols = c("location", "draw"),
-#'                           summarize_cols = "draw",
-#'                           value_col = "value",
-#'                           probs = NULL)
+#' output_dt <- summarize_dt(
+#'   dt = input_dt,
+#'   id_cols = c("location", "draw"),
+#'   summarize_cols = "draw",
+#'   value_cols = "value",
+#'   probs = NULL
+#')
 #'
 #' @importFrom methods existsFunction
 #' @export
 summarize_dt <- function(dt,
                          id_cols,
                          summarize_cols,
-                         value_col,
+                         value_cols,
                          summary_fun = c("mean"),
                          probs = c(0.025, 0.975)) {
 
@@ -66,8 +72,8 @@ summarize_dt <- function(dt,
   # check `summarize_cols` argument
   assertive::assert_is_character(summarize_cols)
 
-  # check `value_col` argument
-  assertthat::assert_that(assertthat::is.string(value_col))
+  # check `value_cols` argument
+  assertive::assert_is_character(value_cols)
 
   # check `id_cols` argument
   assertive::assert_is_character(id_cols)
@@ -76,7 +82,7 @@ summarize_dt <- function(dt,
 
   # check `dt` argument
   assertive::assert_is_data.table(dt)
-  assertable::assert_colnames(dt, c(id_cols, value_col), only_colnames = F,
+  assertable::assert_colnames(dt, c(id_cols, value_cols), only_colnames = F,
                               quiet = T)
   assert_is_unique_dt(dt, id_cols)
 
@@ -103,14 +109,27 @@ summarize_dt <- function(dt,
   original_keys <- original_keys[!original_keys %in% summarize_cols]
   if (is.null(original_keys)) original_keys <- by_id_cols
 
-  summary <- dt[, c(
-    if (length(summary_fun) > 0) lapply(sapply(summary_fun, get),
-                                        function(fun) fun(get(value_col))),
-    if (length(probs) > 0) as.list(stats::quantile(get(value_col),
-                                                   probs = probs))
-  ), by = by_id_cols]
-  data.table::setnames(summary, c(by_id_cols, summary_fun,
-                                  if (length(probs) > 0) quantile_names))
-  data.table::setkeyv(summary, original_keys)
-  return(summary)
+  funs <- sapply(summary_fun, get)
+
+  summaries <- lapply(value_cols, function(value_col) {
+    summary <- dt[
+      ,
+      c(
+        if (length(summary_fun) > 0) lapply(funs, function(fun) fun(get(value_col))),
+        if (length(probs) > 0) as.list(stats::quantile(get(value_col), probs = probs))
+      ),
+      by = by_id_cols
+    ]
+
+    summary_value_cols <- c(summary_fun, if (length(probs) > 0) quantile_names)
+    if (length(value_cols) > 1) {
+      summary_value_cols <- paste0(value_col, "_", summary_value_cols)
+    }
+
+    data.table::setnames(summary, c(by_id_cols, summary_value_cols))
+    data.table::setkeyv(summary, original_keys)
+  })
+  summaries <- Reduce(f = merge, x = summaries)
+
+  return(summaries)
 }
