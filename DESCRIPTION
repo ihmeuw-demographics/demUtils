@@ -26,6 +26,7 @@ Imports:
     assertthat,
     assertive,
     assertable (>= 0.2.7),
+    checkmate,
     methods,
     fs,
     reticulate
