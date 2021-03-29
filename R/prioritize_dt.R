@@ -6,10 +6,12 @@
 #'   Apply `rank_order` priorities to each unique combination of `rank_by_cols`
 #'   in `dt`.
 #' @param rank_order \[`list()`\]\cr
-#'   Priority order to use when ranking non-unique rows. Each element of
-#'   `rank_order` corresponds to a column in `dt`. Possible values for each
-#'   column are '1' (ascending), '-1' (descending) or ordered factor levels when
-#'   the column is not a numeric. See details for more information.
+#'   Named \[`list()`\] defining the priority order to use when ranking
+#'   non-unique rows. Each element of `rank_order` corresponds to a column in
+#'   `dt`, the prioritization is applied according to the order of elements in
+#'   `rank_order`. Possible values for each column are '1' (ascending), '-1'
+#'   (descending) or ordered factor levels when the column is not a numeric. See
+#'   details for more information.
 #' @param quiet \[`logical(1)`\]\cr
 #'   Whether to print out detailed messages/warnings about possible issues with
 #'   `rank_order`. Default is 'FALSE'.
@@ -29,6 +31,9 @@
 #' first level having highest priority. When not all present values of the
 #' column are defined in the levels, the priority will be NA and a warning
 #' printed if `quiet = FALSE`.
+#'
+#' The order of elements in `rank_order` matters. The more important rules
+#' should be placed earlier in `rank_order` so that they are applied first.
 #'
 #' @examples
 #' # preliminary data with only total population

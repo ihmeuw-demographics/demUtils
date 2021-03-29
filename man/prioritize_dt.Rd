@@ -15,10 +15,12 @@ Apply \code{rank_order} priorities to each unique combination of \code{rank_by_c
 in \code{dt}.}
 
 \item{rank_order}{[\code{list()}]\cr
-Priority order to use when ranking non-unique rows. Each element of
-\code{rank_order} corresponds to a column in \code{dt}. Possible values for each
-column are '1' (ascending), '-1' (descending) or ordered factor levels when
-the column is not a numeric. See details for more information.}
+Named [\code{list()}] defining the priority order to use when ranking
+non-unique rows. Each element of \code{rank_order} corresponds to a column in
+\code{dt}, the prioritization is applied according to the order of elements in
+\code{rank_order}. Possible values for each column are '1' (ascending), '-1'
+(descending) or ordered factor levels when the column is not a numeric. See
+details for more information.}
 
 \item{quiet}{[\code{logical(1)}]\cr
 Whether to print out detailed messages/warnings about possible issues with
@@ -45,6 +47,9 @@ first level having highest priority. When not all present values of the
 column are defined in the levels, the priority will be NA and a warning
 printed if \code{quiet = FALSE}.
 }
+
+The order of elements in \code{rank_order} matters. The more important rules
+should be placed earlier in \code{rank_order} so that they are applied first.
 }
 \examples{
 # preliminary data with only total population
