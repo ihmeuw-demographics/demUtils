@@ -4,7 +4,11 @@
 #'   Data to determine rank priority for.
 #' @param rank_by_cols \[`character()`\]\cr
 #'   Apply `rank_order` priorities to each unique combination of `rank_by_cols`
-#'   in `dt`.
+#'   in `dt`. This should be equal to or a subset of `unique_id_cols`.
+#' @param unique_id_cols \[`character()`\]\cr
+#'   ID columns that once ranked by priority will uniquely identify rows of `dt`
+#'   in combination with the priority column. This should be a superset of
+#'   `rank_by_cols`. Default is equal to `rank_by_cols`.
 #' @param rank_order \[`list()`\]\cr
 #'   Named \[`list()`\] defining the priority order to use when ranking
 #'   non-unique rows. Each element of `rank_order` corresponds to a column in
@@ -12,9 +16,19 @@
 #'   `rank_order`. Possible values for each column are '1' (ascending), '-1'
 #'   (descending) or ordered factor levels when the column is not a numeric. See
 #'   details for more information.
-#' @param quiet \[`logical(1)`\]\cr
-#'   Whether to print out detailed messages/warnings about possible issues with
-#'   `rank_order`. Default is 'FALSE'.
+#' @param warn_missing_levels \[`logical(1)`\]\cr
+#'   Whether to warn about missing levels for elements of `rank_order` or throw
+#'   error. Default is 'FALSE' and errors out if there are missing levels.
+#' @param warn_non_unique_priority \[`logical(1)`\]\cr
+#'   Whether to warn about specified `rank_by_cols` & `rank_order` leading to
+#'   non-unique rows of `dt` after generating 'priority' column. Default is
+#'   'FALSE' and errors out if there are non-unique rows.
+#' @param check_top_priority_unique_only \[`logical(1)`\]\cr
+#'   When checking for non-unique rows of `dt` after generating the 'priority'
+#'   column with the `rank_by_cols` & names of `rank_order`, only check the
+#'   priority=1 rows. This is useful when specified `rank_order` levels are not
+#'   exhaustive leading to 'NA' priorities for some rows. Default if 'FALSE' and
+#'   errors out if there are any non-unique rows.
 #'
 #' @return `dt` with a new 'priority' column generated using the rules specified
 #'   in `rank_order`. 'priority' equal to 1 is the highest priority
@@ -57,6 +71,7 @@
 #' output_dt <- prioritize_dt(
 #'   dt = input_dt,
 #'   rank_by_cols = c("location", "year"),
+#'   unique_id_cols = c("location", "year", "age_start", "age_end"),
 #'   rank_order = list(
 #'     method = c("de facto", "de jure"), # prioritize 'de facto' sources highest
 #'     n_age_groups = -1 # prioritize sources with more age groups
@@ -64,18 +79,33 @@
 #' )
 #'
 #' @export
-prioritize_dt <- function(dt, rank_by_cols, rank_order, quiet = FALSE) {
+prioritize_dt <- function(dt,
+                          rank_by_cols,
+                          unique_id_cols = rank_by_cols,
+                          rank_order,
+                          warn_missing_levels = FALSE,
+                          warn_non_unique_priority = FALSE,
+                          check_top_priority_unique_only = FALSE) {
 
   # validate inputs ---------------------------------------------------------
 
+  checkmate::assert_logical(warn_missing_levels, len = 1)
+  checkmate::assert_logical(warn_non_unique_priority, len = 1)
+  checkmate::assert_logical(check_top_priority_unique_only, len = 1)
+
   checkmate::assert_data_table(dt)
-  checkmate::assert_logical(quiet, len = 1)
+
+  checkmate::assert_character(unique_id_cols)
+  checkmate::assert_names(names(dt), must.include = unique_id_cols)
 
   checkmate::assert_character(rank_by_cols)
   checkmate::assert_names(names(dt), must.include = rank_by_cols)
+  checkmate::assert_subset(rank_by_cols, choices = unique_id_cols)
 
   checkmate::assert_list(rank_order)
   checkmate::assert_names(names(dt), must.include = names(rank_order))
+
+  checkmate::assert_disjunct(names(rank_order), rank_by_cols)
 
   rank_order <- copy(rank_order)
   original_col_order <- names(dt)
@@ -95,12 +125,17 @@ prioritize_dt <- function(dt, rank_by_cols, rank_order, quiet = FALSE) {
 
       # check for non-defined levels for the categorical column
       other_levels <- setdiff(unique(priority_dt[[col]]), col_levels)
-      if (!quiet) {
-        warning(
-        "'", col, "' `rank_order` is missing levels, the priority for these levels will be 'NA'\n",
-        "\t- defined levels: ", paste(col_levels, collapse = ","), "\n",
-        "\t- missing levels: ", paste(other_levels, collapse = ",")
+      if (length(other_levels) > 0) {
+        msg <- paste0(
+          "'", col, "' `rank_order` is missing levels, the priority for these levels will be 'NA'\n",
+          "\t- defined levels: ", paste(col_levels, collapse = ","), "\n",
+          "\t- missing levels: ", paste(other_levels, collapse = ",")
         )
+        if (warn_missing_levels) {
+          warning(msg)
+        } else {
+          stop(msg)
+        }
       }
 
       priority_dt[, c(col) := factor(get(col), levels = col_levels)]
@@ -119,6 +154,25 @@ prioritize_dt <- function(dt, rank_by_cols, rank_order, quiet = FALSE) {
 
   # add priority rank back onto original dataset
   dt <- merge(dt, priority_dt, by = setdiff(names(priority_dt), "priority"), all.x = TRUE)
+
+  # check
+  check_id_cols <- c(unique_id_cols, "priority")
+  check_dt <- dt
+  if (check_top_priority_unique_only) check_dt <- dt[priority == 1]
+  non_unique_dt <- demUtils::identify_non_unique_dt(check_dt, check_id_cols)
+  if (nrow(non_unique_dt) > 0) {
+    msg <- paste0(
+      "Specified `rank_by_cols`, `rank_order` & returned `priority` do not uniquely identify each row of `dt`.\n",
+      "\t- use `warn_non_unique_priority=TRUE` to return `dt` and run demUtils::identify_non_unique_dt\n",
+      "\t with `id_cols = c('", paste(check_id_cols, collapse = "', '"), "')`\n",
+      paste0(capture.output(non_unique_dt), collapse = "\n")
+    )
+    if (warn_non_unique_priority) {
+      warning(msg)
+    } else {
+      stop(msg)
+    }
+  }
 
   # format output
   data.table::setcolorder(dt, c(original_col_order, "priority"))

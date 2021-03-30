@@ -30,9 +30,22 @@ testthat::test_that("prioritization of data works", {
   output_dt <- prioritize_dt(
     dt = input_dt,
     rank_by_cols = c("location", "year"),
-    rank_order = rank_order
+    unique_id_cols = c("location", "year", "age_start"),
+    rank_order = rank_order,
   )
   testthat::expect_identical(output_dt, expected_dt)
+})
+
+testthat::test_that("'prioritize_dt' catches missing rank order specification", {
+  testthat::expect_error(
+    prioritize_dt(
+      dt = input_dt,
+      rank_by_cols = c("location", "year"),
+      unique_id_cols = c("location", "year", "age_start"),
+      rank_order = rank_order["method"]
+    ),
+    regexp = "do not uniquely identify each row of"
+  )
 })
 
 # Rank order missing some categorical factor levels -----------------------
@@ -57,13 +70,31 @@ expected_dt[method == "A" & report == 2015, priority := 4L]
 expected_dt[method %in% c("C", "D"), priority := NA]
 setkeyv(expected_dt, c(id_cols, "priority"))
 
+testthat::test_that("prioritization of data works when missing levels", {
 
-testthat::test_that("prioritization of data works", {
-  output_dt <- prioritize_dt(
-    dt = input_dt,
-    rank_by_cols = c("location", "year"),
-    rank_order = rank_order,
-    quiet = TRUE
+  # expect error since multiple method/reports will have report NA
+  testthat::expect_error(
+    suppressWarnings(prioritize_dt(
+      dt = input_dt,
+      rank_by_cols = c("location", "year"),
+      unique_id_cols = c("location", "year", "age_start"),
+      rank_order = rank_order,
+      warn_missing_levels = TRUE,
+    )),
+    regexp = "do not uniquely identify each row of"
+  )
+
+  # now no error since only checking that top priority is unique
+  output_dt <- testthat::expect_warning(
+    prioritize_dt(
+      dt = input_dt,
+      rank_by_cols = c("location", "year"),
+      unique_id_cols = c("location", "year", "age_start"),
+      rank_order = rank_order,
+      warn_missing_levels = TRUE,
+      check_top_priority_unique_only = TRUE
+    ),
+    regexp = "'method' `rank_order` is missing levels"
   )
   testthat::expect_identical(output_dt, expected_dt)
 })

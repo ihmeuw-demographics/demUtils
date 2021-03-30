@@ -4,7 +4,15 @@
 \alias{prioritize_dt}
 \title{Rank non-unique rows in a data.table using defined priority orders}
 \usage{
-prioritize_dt(dt, rank_by_cols, rank_order, quiet = FALSE)
+prioritize_dt(
+  dt,
+  rank_by_cols,
+  unique_id_cols = rank_by_cols,
+  rank_order,
+  warn_missing_levels = FALSE,
+  warn_non_unique_priority = FALSE,
+  check_top_priority_unique_only = FALSE
+)
 }
 \arguments{
 \item{dt}{[\code{data.table()}]\cr
@@ -12,7 +20,12 @@ Data to determine rank priority for.}
 
 \item{rank_by_cols}{[\code{character()}]\cr
 Apply \code{rank_order} priorities to each unique combination of \code{rank_by_cols}
-in \code{dt}.}
+in \code{dt}. This should be equal to or a subset of \code{unique_id_cols}.}
+
+\item{unique_id_cols}{[\code{character()}]\cr
+ID columns that once ranked by priority will uniquely identify rows of \code{dt}
+in combination with the priority column. This should be a superset of
+\code{rank_by_cols}. Default is equal to \code{rank_by_cols}.}
 
 \item{rank_order}{[\code{list()}]\cr
 Named [\code{list()}] defining the priority order to use when ranking
@@ -22,9 +35,21 @@ non-unique rows. Each element of \code{rank_order} corresponds to a column in
 (descending) or ordered factor levels when the column is not a numeric. See
 details for more information.}
 
-\item{quiet}{[\code{logical(1)}]\cr
-Whether to print out detailed messages/warnings about possible issues with
-\code{rank_order}. Default is 'FALSE'.}
+\item{warn_missing_levels}{[\code{logical(1)}]\cr
+Whether to warn about missing levels for elements of \code{rank_order} or throw
+error. Default is 'FALSE' and errors out if there are missing levels.}
+
+\item{warn_non_unique_priority}{[\code{logical(1)}]\cr
+Whether to warn about specified \code{rank_by_cols} & \code{rank_order} leading to
+non-unique rows of \code{dt} after generating 'priority' column. Default is
+'FALSE' and errors out if there are non-unique rows.}
+
+\item{check_top_priority_unique_only}{[\code{logical(1)}]\cr
+When checking for non-unique rows of \code{dt} after generating the 'priority'
+column with the \code{rank_by_cols} & names of \code{rank_order}, only check the
+priority=1 rows. This is useful when specified \code{rank_order} levels are not
+exhaustive leading to 'NA' priorities for some rows. Default if 'FALSE' and
+errors out if there are any non-unique rows.}
 }
 \value{
 \code{dt} with a new 'priority' column generated using the rules specified
@@ -73,6 +98,7 @@ input_dt[, n_age_groups := .N, by = setdiff(names(input_dt), c("age_start", "age
 output_dt <- prioritize_dt(
   dt = input_dt,
   rank_by_cols = c("location", "year"),
+  unique_id_cols = c("location", "year", "age_start", "age_end"),
   rank_order = list(
     method = c("de facto", "de jure"), # prioritize 'de facto' sources highest
     n_age_groups = -1 # prioritize sources with more age groups
