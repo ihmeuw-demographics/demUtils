@@ -45,7 +45,7 @@ jobs:
           python3 -m pip --no-cache-dir install --upgrade PyPDF2
           Rscript -e "reticulate::install_miniconda()"
           Rscript -e "reticulate::conda_create('r-reticulate')"
-          Rscript -e "reticulate::conda_install(envname='r-reticulate', packages="PyPDF2")"
+          Rscript -e "reticulate::conda_install(envname='r-reticulate', packages='PyPDF2')"
 
       - name: Install package
         run: R CMD INSTALL .
