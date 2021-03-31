@@ -31,7 +31,7 @@ Expands data.table to dimensions not already present, leaving
 value columns NA.
 }
 \details{
-This function is a wrapper for \code{\link[data.table:CJ]{data.table::CJ()}}.
+This function is a wrapper for \code{\link[data.table:J]{data.table::CJ()}}.
 
 Syntax for example:
 \code{dt[CJ(year = 1990:2000, draw = c(1:2), location = "Mexico", unique = T), on = list(location, year)]}

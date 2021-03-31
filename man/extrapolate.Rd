@@ -11,7 +11,8 @@ extrapolate(
   value_col,
   extrapolate_vals,
   method,
-  n_groups_fit
+  n_groups_fit,
+  n_groups_bin = NULL
 )
 }
 \arguments{
@@ -48,6 +49,10 @@ be selected as the first N groups or the last N groups in the data
 depending on the direction of extrapolation. Example: for extrapolation
 from years 1990:2000 up to year 2020 with \code{n_groups_fit} = 5, only
 years 1995:2000 will be used to fit the extrapolation model.}
+
+\item{n_groups_bin}{[\code{numeric(1)}]\cr
+TODO: add option to bin groups before fitting linear model or calculating
+rate of change.}
 }
 \value{
 [\code{data.table()}] \code{dt} with added rows for extrapolated values.
@@ -60,6 +65,8 @@ extrapolation.
 \details{
 For reference on rate of change, see page 12 of the Preston Demography book, or,
 https://www.un.org/esa/sustdev/natlinfo/indicators/methodology_sheets/demographics/population_growth_rate.pdf
+
+Consider log transforming your data prior to extrapolation if appropriate.
 }
 \examples{
 dt <- data.table::data.table(

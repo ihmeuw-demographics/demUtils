@@ -8,7 +8,7 @@ summarize_dt(
   dt,
   id_cols,
   summarize_cols,
-  value_col,
+  value_cols,
   summary_fun = c("mean"),
   probs = c(0.025, 0.975)
 )
@@ -24,8 +24,10 @@ ID columns that uniquely identify each row of \code{dt}.}
 The \code{id_cols} that should be collapsed and to calculate summary statistics
 over.}
 
-\item{value_col}{[\code{character(1)}]\cr
-Value column that summary statistics should be calculated for.}
+\item{value_cols}{[\code{character()}]\cr
+Value columns that summary statistics should be calculated for. When more
+than one column is specified, each of the summary statistic columns that
+are returned are prefixed with the value column name.}
 
 \item{summary_fun}{[\code{character()}]\cr
 Names of the functions that can be used to summarize a vector of values.
@@ -40,7 +42,9 @@ quantiles with \code{stats::quantile()}. Default is 0.025 and 0.975 for the
 [\code{data.table()}] with \code{id_cols} (minus the \code{summarize_cols}) plus
 summary statistic columns. The summary statistic columns have the same name
 as each function specified in \code{summary_fun} and the quantiles are named
-like 'q_\code{(probs * 100)}'.
+like 'q_\code{(probs * 100)}'. If more than one \code{value_cols} is specified, each
+of the summary statistic columns that are returned are prefixed with the
+value column name.
 }
 \description{
 Calculate summary statistics when collapsing over a certain
@@ -58,19 +62,21 @@ quantiles for using the \code{stats::quantile()} function. The default 2.5 and
 data.table.
 }
 \examples{
-input_dt <- data.table::data.table(location = "USA",
-                                   draw = 1:101,
-                                   value = 0:100)
-output_dt <- summarize_dt(dt = input_dt,
-                          id_cols = c("location", "draw"),
-                          summarize_cols = "draw",
-                          value_col = "value")
+input_dt <- data.table::data.table(location = "USA", draw = 1:101, value = 0:100)
+output_dt <- summarize_dt(
+  dt = input_dt,
+  id_cols = c("location", "draw"),
+  summarize_cols = "draw",
+  value_cols = "value"
+)
 
 # no quantiles calculated
-output_dt <- summarize_dt(dt = input_dt,
-                          id_cols = c("location", "draw"),
-                          summarize_cols = "draw",
-                          value_col = "value",
-                          probs = NULL)
+output_dt <- summarize_dt(
+  dt = input_dt,
+  id_cols = c("location", "draw"),
+  summarize_cols = "draw",
+  value_cols = "value",
+  probs = NULL
+)
 
 }
