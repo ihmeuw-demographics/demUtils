@@ -23,13 +23,18 @@ VignetteBuilder: knitr
 Language: en-US
 Imports:
     data.table,
+    dplyr,
     assertthat,
     assertive,
     assertable (>= 0.2.7),
     checkmate,
     methods,
     fs,
-    reticulate
+    reticulate,
+    rvest,
+    polite,
+    magrittr,
+    purrr
 Config/reticulate:
   list(
     packages = list(
