@@ -1,0 +1,10 @@
+destination: docs
+
+reference:
+- title: "Getting data from data.un.org"
+  desc: "Functions to scrape tables from data.un.org"
+- contents:
+  - get_undata_table
+  - get_undata_npages
+  - get_undata_update_dates
+  - undata_url_to_query
