@@ -16,7 +16,7 @@ Pages to scrape from the table. See \code{get_undata_npages} to scrape total
 number of tables. Default is 1.}
 }
 \value{
-[\code{tibble()}] all pages from the table combined together.
+[\code{data.table()}] all pages from the table combined together.
 }
 \description{
 Scrape multiple pages from any data.un.org table.

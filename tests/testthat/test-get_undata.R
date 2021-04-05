@@ -24,9 +24,6 @@ expected_table <- data.table::CJ(
   "Value" = 1
 )
 data.table::setorder(expected_table, `Country or Area`, -`Year(s)`, `Variant`)
-expected_table <- dplyr::as_tibble(expected_table)
-attr(expected_table, which = "sorted") <- NULL
-attr(expected_table, which = ".internal.selfref") <- NULL
 
 expected_npages <- ceiling(nrow(expected_table) / 50)
 

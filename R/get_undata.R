@@ -8,7 +8,7 @@
 #'   Pages to scrape from the table. See `get_undata_npages` to scrape total
 #'   number of tables. Default is 1.
 #'
-#' @return \[`tibble()`\] all pages from the table combined together.
+#' @return \[`data.table()`\] all pages from the table combined together.
 #'
 #' @details
 #' A list of all possible tables is shown here http://data.un.org/Explorer.aspx.
@@ -46,8 +46,10 @@ get_undata_table <- function(bow, query, pages = 1) {
   table <- purrr::map_dfr(
     .x = pages,
     .f = ~get_undata_table_page(bow, query, page = .x)
-  )
-  checkmate::assert_tibble(table)
+  ) %>%
+  setDT()
+
+  checkmate::assert_data_table(table)
 
   return(table)
 }
