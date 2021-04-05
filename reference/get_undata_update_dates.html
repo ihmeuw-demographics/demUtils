@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • demUtils</title>
+<title>Get the listed update dates for a data.un.org table — get_undata_update_dates • demUtils</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,8 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Get the listed update dates for a data.un.org table — get_undata_update_dates" />
+<meta property="og:description" content="Get the listed update dates for a data.un.org table" />
 
 
 
@@ -58,7 +59,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -117,61 +118,44 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Get the listed update dates for a data.un.org table</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ihmeuw-demographics/demUtils/blob/master/R/get_undata.R'><code>R/get_undata.R</code></a></small>
+    <div class="hidden name"><code>get_undata_update_dates.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Get the listed update dates for a data.un.org table</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>get_undata_update_dates</span><span class='op'>(</span><span class='va'>bow</span>, <span class='va'>query</span><span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-getting-data-from-data-un-org" class="hasAnchor"><a href="#section-getting-data-from-data-un-org" class="anchor"></a>Getting data from data.un.org</h2>
-          <p class="section-desc"><p>Functions to scrape tables from data.un.org</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="get_undata_table.html">get_undata_table()</a></code> </p>
-        </td>
-        <td><p>Scrape data.un.org tables</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_undata_npages.html">get_undata_npages()</a></code> </p>
-        </td>
-        <td><p>Get the total number of pages available in the specified table.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_undata_update_dates.html">get_undata_update_dates()</a></code> </p>
-        </td>
-        <td><p>Get the listed update dates for a data.un.org table</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="undata_url_to_query.html">undata_url_to_query()</a></code> </p>
-        </td>
-        <td><p>Convert the undata url to the query argument needed to reference
-specific tables</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>bow</th>
+      <td><p>host introduction object of class <code>polite</code>, <code>session</code> created by <code>bow()</code> or <code>nod()</code></p></td>
+    </tr>
+    <tr>
+      <th>query</th>
+      <td><p>named list of parameters to be appended to URL in the format <code><a href='https://rdrr.io/r/base/list.html'>list(param1=valA, param2=valB)</a></code></p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>a named [<code><a href='https://rdrr.io/r/base/Dates.html'>Date()</a></code>] vector, the names correspond to the description
+of the date (likely 'Last' or 'Next').</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other get_undata: 
+<code><a href='get_undata_npages.html'>get_undata_npages</a>()</code>,
+<code><a href='get_undata_table.html'>get_undata_table</a>()</code>,
+<code><a href='undata_url_to_query.html'>undata_url_to_query</a>()</code></p></div>
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
