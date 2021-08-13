@@ -33,8 +33,7 @@ Imports:
     reticulate,
     rvest,
     polite,
-    magrittr,
-    purrr
+    httr
 Config/reticulate:
   list(
     packages = list(

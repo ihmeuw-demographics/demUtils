@@ -20,8 +20,8 @@ Get the listed update dates for a data.un.org table
 }
 \seealso{
 Other get_undata: 
-\code{\link{get_undata_npages}()},
-\code{\link{get_undata_table}()},
+\code{\link{download_undata_table}()},
+\code{\link{get_undata_nrecords}()},
 \code{\link{undata_url_to_query}()}
 }
 \concept{get_undata}

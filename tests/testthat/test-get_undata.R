@@ -25,8 +25,6 @@ expected_table <- data.table::CJ(
 )
 data.table::setorder(expected_table, `Country or Area`, -`Year(s)`, `Variant`)
 
-expected_npages <- ceiling(nrow(expected_table) / 50)
-
 
 test_that("table url is correctly converted to a query argument", {
   query <- undata_url_to_query(table_url)
@@ -35,13 +33,16 @@ test_that("table url is correctly converted to a query argument", {
 
 test_that("undata table can be scraped", {
   query <- undata_url_to_query(table_url)
-  npages <- get_undata_npages(session, query)
-  expect_identical(npages, expected_npages)
 
   update_dates <- get_undata_update_dates(session, query)
   expect_named(update_dates, c("Last", "Next"))
 
-  table <- get_undata_table(session, query, pages = 1:npages)
+  fname <- single_download_undata_table(
+    query = query,
+    output_path = tempfile(),
+    bow = session
+  )
+  table <- data.table::fread(fname)
   table <- dplyr::mutate(.data = table, Value = 1)
   expect_identical(table, expected_table)
 })

@@ -27,12 +27,11 @@ specific tables
 \examples{
 table_url <- "http://data.un.org/Data.aspx?d=PopDiv&f=variableID\%3a12"
 query <- undata_url_to_query(table_url)
-
 }
 \seealso{
 Other get_undata: 
-\code{\link{get_undata_npages}()},
-\code{\link{get_undata_table}()},
+\code{\link{download_undata_table}()},
+\code{\link{get_undata_nrecords}()},
 \code{\link{get_undata_update_dates}()}
 }
 \concept{get_undata}
