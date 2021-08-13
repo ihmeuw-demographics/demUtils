@@ -42,7 +42,8 @@ test_that("undata table can be scraped", {
     output_path = tempfile(),
     bow = session
   )
-  table <- data.table::fread(fname)
+
+  table <- read_undata_files(fname)
   table <- dplyr::mutate(.data = table, Value = 1)
-  expect_identical(table, expected_table)
+  expect_equal(table, expected_table)
 })

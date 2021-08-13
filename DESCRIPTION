@@ -18,7 +18,8 @@ Suggests:
     knitr,
     rmarkdown,
     spelling,
-    covr
+    covr,
+    readr
 VignetteBuilder: knitr
 Language: en-US
 Imports:

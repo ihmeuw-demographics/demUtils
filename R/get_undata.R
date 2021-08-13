@@ -191,6 +191,83 @@ single_download_undata_table <- function(query,
   return(invisible(output_path))
 }
 
+#' @title Combine together downloaded undata files
+#'
+#' @param fpaths \[`character()`\]\cr
+#'   Path to separate undata files to combine together. Output of
+#'   `download_undata_table`.
+#' @param n_footnote_col \[`numeric(1)`\]\cr
+#'   Column number of the 'data' table where the `footnote_col` is also stored.
+#'   Default is '2'.
+#' @param data_footnoteid_col \[`character(1)`\]\cr
+#'   Name of column in the data table storing the id number. Default is
+#'   'Value Footnotes'.
+#' @param footnoteid_col \[`character(1)`\]\cr
+#'   Name of column in the footnote table storing the id number. Default is
+#'   'footnoteSeqID'.
+#' @param footnote_col \[`character(1)`\]\cr
+#'   Name of column in the footnote table storing the text. Default is 'Footnote'.
+#'
+#' @return \[`data.table(1)`\] with all data from input paths combined together.
+#'
+#' @details undata tables contain the standard dataset included in the online tables
+#'   plus sometimes a table at the bottom containing footnotes. This function
+#'
+#' @family undata
+#'
+#' @examples
+#' \dontrun{
+#' data <- read_undata_files
+#' }
+#' @export
+read_undata_files <- function(fpaths,
+                              n_footnote_col = 2,
+                              data_footnoteid_col = "Value Footnotes",
+                              footnoteid_col = "footnoteSeqID",
+                              footnote_col = "Footnote") {
+
+  if (!requireNamespace("readr", quietly = TRUE)) {
+    stop("Package \"readr\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
+
+  checkmate::assert_file(fpaths)
+  checkmate::assert_numeric(n_footnote_col, len = 1)
+  checkmate::assert_character(data_footnoteid_col, len = 1)
+  checkmate::assert_character(footnoteid_col, len = 1)
+  checkmate::assert_character(footnote_col, len = 1)
+
+  all_data <- lapply(fpaths, function(fpath) {
+
+    # determine what line the footnotes table starts on
+    data <- readr::read_csv(fpath)
+    data <- data.table(data)
+
+    footnote_start <- rownames(data)[data[, get(names(data)[n_footnote_col]) == footnote_col]]
+    if (length(footnote_start) == 1) {
+      footnote_start <- as.integer(footnote_start)
+
+      # read in just the data table
+      data <- readr::read_csv(fpath, n_max = footnote_start - 1)
+      data <- data.table(data)
+
+      # read in the footnotes table
+      footnotes <- readr::read_csv(fpath, skip = footnote_start)
+      footnotes <- data.table(footnotes)
+
+      # merge the footnote text onto the data table
+      data.table::setnames(data, data_footnoteid_col, footnoteid_col)
+      data <- merge(data, footnotes, by = footnoteid_col, all.x = TRUE)
+
+    }
+
+    return(data)
+  })
+
+  all_data <- data.table::rbindlist(all_data)
+  return(all_data)
+}
+
 #' @title Get the total number of records (rows) available in the specified table.
 #'
 #' @inheritParams polite::scrape
