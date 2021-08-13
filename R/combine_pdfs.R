@@ -8,7 +8,7 @@
 #'   Output filepath for the combined pdf to code file. The directory must
 #'   exist.
 #'
-#' @return None. `output_path` will be created.
+#' @return Invisibly returns `output_path`..
 #'
 #' @examples
 #' \dontrun{
@@ -21,19 +21,23 @@
 #' @export
 combine_pdfs <- function(input_paths, output_path) {
 
-  assertthat::assert_that(all(fs::file_exists(input_paths)))
-  assertthat::assert_that(fs::dir_exists(fs::path_dir(output_path)))
-
   # eliminate any symbolic links and special references like '~' or '..' for PyPDF2
   input_paths <- fs::path_real(input_paths)
-  output_path <- fs::path_real(output_path)
+  assertthat::assert_that(all(fs::file_exists(input_paths)))
 
-  # load `combine_pdfs_py` into environment
-  combine_pdfs_py_fpath <- system.file(
-    "python/combine_pdfs.py",
-    package = utils::packageName()
-  )
-  reticulate::source_python(file = combine_pdfs_py_fpath)
+  output_file <- fs::path_file(output_path)
+  output_dir <- fs::path_dir(output_path)
+  output_dir <- fs::path_real(output_dir)
+  assertthat::assert_that(fs::dir_exists(output_dir))
+  output_path <- fs::path(output_dir, output_file)
 
-  combine_pdfs_py(input_paths, output_path)
+  PyPDF2 <- reticulate::import("PyPDF2")
+  combined_pdf <- PyPDF2$PdfFileMerger()
+  for (path in input_paths) {
+    pdf <- PyPDF2$PdfFileReader(path)
+    combined_pdf$append(pdf)
+  }
+  combined_pdf$write(output_path)
+
+  return(invisible(output_path))
 }
