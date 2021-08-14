@@ -12,7 +12,7 @@ testthat::test_that("combine_pdfs works", {
     # create plot
     testdata <- rnorm(1000)
     hist(testdata)
-    title(main = fullpath)
+    title(sub = fullpath)
 
     dev.off()
   }

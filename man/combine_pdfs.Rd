@@ -15,7 +15,7 @@ Output filepath for the combined pdf to code file. The directory must
 exist.}
 }
 \value{
-None. \code{output_path} will be created.
+Invisibly returns \code{output_path}..
 }
 \description{
 Use PyPDF2 python package to combine multiple pdfs into one pdf.
