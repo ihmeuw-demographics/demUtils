@@ -3,5 +3,8 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   placeholder: placeholder.html
-last_built: 2021-08-14T00:19Z
+last_built: 2021-08-16T16:50Z
+urls:
+  reference: https://ihmeuw-demographics.github.io/demUtils/reference
+  article: https://ihmeuw-demographics.github.io/demUtils/articles
 
