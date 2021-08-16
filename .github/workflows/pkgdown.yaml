@@ -1,6 +1,10 @@
 on:
   push:
-    branches: master
+    branches:
+      - main
+      - master
+    tags:
+      -'*'
 
 name: pkgdown
 
@@ -12,9 +16,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: r-lib/actions/setup-r@master
+      - uses: r-lib/actions/setup-r@v1
 
-      - uses: r-lib/actions/setup-pandoc@master
+      - uses: r-lib/actions/setup-pandoc@v1
 
       - name: Query dependencies
         run: |
@@ -23,8 +27,8 @@ jobs:
           writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
         shell: Rscript {0}
 
-      - name: Cache R packages
-        uses: actions/cache@v1
+      - name: Restore R package cache
+        uses: actions/cache@v2
         with:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
@@ -33,19 +37,8 @@ jobs:
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
-          install.packages("pkgdown")
+          install.packages("pkgdown", type = "binary")
         shell: Rscript {0}
-
-      - uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
-
-      - name: Install python package dependencies
-        run: |
-          python3 -m pip --no-cache-dir install --upgrade PyPDF2
-          Rscript -e "reticulate::install_miniconda()"
-          Rscript -e "reticulate::conda_create('r-reticulate')"
-          Rscript -e "reticulate::conda_install(envname='r-reticulate', packages='PyPDF2')"
 
       - name: Install package
         run: R CMD INSTALL .
