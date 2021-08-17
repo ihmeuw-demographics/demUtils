@@ -35,9 +35,3 @@ Imports:
     rvest,
     polite,
     httr
-Config/reticulate:
-  list(
-    packages = list(
-      list(package = "PyPDF2", pip = TRUE)
-    )
-  )
