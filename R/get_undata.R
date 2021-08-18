@@ -248,17 +248,41 @@ read_undata_files <- function(fpaths,
       footnote_start <- as.integer(footnote_start)
 
       # read in just the data table
-      data <- readr::read_csv(fpath, n_max = footnote_start - 1)
+      # make sure ',' separated footnote values read in correctly as a string
+      col_types <- list("c")
+      names(col_types) <- c(data_footnoteid_col)
+      data <- readr::read_csv(fpath, n_max = footnote_start - 1, col_types = col_types)
       data <- data.table(data)
 
       # read in the footnotes table
-      footnotes <- readr::read_csv(fpath, skip = footnote_start)
+      names(col_types) <- c(footnoteid_col)
+      footnotes <- readr::read_csv(fpath, skip = footnote_start, col_types = col_types)
       footnotes <- data.table(footnotes)
+
+      # generate new rows for data that corresponds to multiple footnotes
+      all_footnote_ids <- unique(data[[data_footnoteid_col]])
+      concatenated_ids <- grep(',', all_footnote_ids, value = TRUE)
+      concatenated_footnotes <- lapply(concatenated_ids, function(id) {
+        ids <- strsplit(id, ",")[[1]]
+        new_row <- data.table::data.table(
+          id = id,
+          footnote = paste(footnotes[get(footnoteid_col) %in% ids, get(footnote_col)], collapse = ", ")
+        )
+        data.table::setnames(new_row, names(new_row), names(footnotes))
+        return(new_row)
+      })
+      concatenated_footnotes <- data.table::rbindlist(concatenated_footnotes)
+      footnotes <- rbind(footnotes, concatenated_footnotes)
 
       # merge the footnote text onto the data table
       data.table::setnames(data, data_footnoteid_col, footnoteid_col)
       data <- merge(data, footnotes, by = footnoteid_col, all.x = TRUE)
 
+      assertable::assert_values(
+        data = data[!is.na(get(footnoteid_col))],
+        colnames = footnote_col,
+        test = "not_na"
+      )
     }
 
     return(data)
