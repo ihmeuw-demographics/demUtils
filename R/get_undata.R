@@ -14,7 +14,7 @@
 #' @param base_url \[`character(1)`\]\cr
 #'   The base url of the data.un.org site. Default is 'http://data.un.org/Data.aspx'.
 #' @param downloader_url
-#'   The base url of the data.un.org site download interfact. Default is
+#'   The base url of the data.un.org site download interface. Default is
 #'   'http://data.un.org/Handlers/DownloadHandler.ashx'.
 #'
 #' @details
