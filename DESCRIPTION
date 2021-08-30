@@ -18,7 +18,8 @@ Suggests:
     knitr,
     rmarkdown,
     spelling,
-    covr
+    covr,
+    readr
 VignetteBuilder: knitr
 Language: en-US
 Imports:
@@ -33,11 +34,4 @@ Imports:
     reticulate,
     rvest,
     polite,
-    magrittr,
-    purrr
-Config/reticulate:
-  list(
-    packages = list(
-      list(package = "PyPDF2", pip = TRUE)
-    )
-  )
+    httr

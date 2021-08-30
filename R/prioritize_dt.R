@@ -165,7 +165,7 @@ prioritize_dt <- function(dt,
       "Specified `rank_by_cols`, `rank_order` & returned `priority` do not uniquely identify each row of `dt`.\n",
       "\t- use `warn_non_unique_priority=TRUE` to return `dt` and run demUtils::identify_non_unique_dt\n",
       "\t with `id_cols = c('", paste(check_id_cols, collapse = "', '"), "')`\n",
-      paste0(capture.output(non_unique_dt), collapse = "\n")
+      paste0(utils::capture.output(non_unique_dt), collapse = "\n")
     )
     if (warn_non_unique_priority) {
       warning(msg)
