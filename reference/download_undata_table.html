@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • demUtils</title>
+<title>Download data.un.org tables as csvs — download_undata_table • demUtils</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,8 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Download data.un.org tables as csvs — download_undata_table" />
+<meta property="og:description" content="Download data.un.org tables as csvs" />
 
 
 
@@ -58,7 +59,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -117,151 +118,93 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Download data.un.org tables as csvs</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ihmeuw-demographics/demUtils/blob/master/R/get_undata.R'><code>R/get_undata.R</code></a></small>
+    <div class="hidden name"><code>download_undata_table.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Download data.un.org tables as csvs</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>download_undata_table</span><span class='op'>(</span>
+  <span class='va'>table_url</span>,
+  <span class='va'>output_dir</span>,
+  record_limit <span class='op'>=</span> <span class='fl'>1e+05</span>,
+  download_sleep <span class='op'>=</span> <span class='fl'>30</span>,
+  base_url <span class='op'>=</span> <span class='st'>"http://data.un.org/Data.aspx"</span>,
+  downloader_url <span class='op'>=</span> <span class='st'>"http://data.un.org/Handlers/DownloadHandler.ashx"</span>
+<span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-getting-data-from-data-un-org" class="hasAnchor"><a href="#section-getting-data-from-data-un-org" class="anchor"></a>Getting data from data.un.org</h2>
-          <p class="section-desc"><p>Functions to scrape tables from data.un.org</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="arc.html">arc()</a></code> </p>
-        </td>
-        <td><p>Calculate annualized rate of change (ARC)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="assert_is_unique_dt.html">assert_is_unique_dt()</a></code> <code><a href="assert_is_unique_dt.html">identify_non_unique_dt()</a></code> </p>
-        </td>
-        <td><p>Are the rows of the input data.table unique?</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="change_col_type.html">change_col_type()</a></code> </p>
-        </td>
-        <td><p>Change data.table column types</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="combine_pdfs.html">combine_pdfs()</a></code> </p>
-        </td>
-        <td><p>Combine pdfs togethers</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="demUtils.html">demUtils</a></code> </p>
-        </td>
-        <td><p>Utility functions for demographic data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="download_undata_table.html">download_undata_table()</a></code> </p>
-        </td>
-        <td><p>Download data.un.org tables as csvs</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="expand.html">expand()</a></code> </p>
-        </td>
-        <td><p>Expand</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="extrapolate.html">extrapolate()</a></code> </p>
-        </td>
-        <td><p>Extrapolate</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_undata_nrecords.html">get_undata_nrecords()</a></code> </p>
-        </td>
-        <td><p>Get the total number of records (rows) available in the specified table.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_undata_update_dates.html">get_undata_update_dates()</a></code> </p>
-        </td>
-        <td><p>Get the listed update dates for a data.un.org table</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="interpolate.html">interpolate()</a></code> </p>
-        </td>
-        <td><p>Interpolate</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="logit_utils.html">logit()</a></code> <code><a href="logit_utils.html">invlogit()</a></code> <code><a href="logit_utils.html">check_logit_inputs()</a></code> </p>
-        </td>
-        <td><p>Logit and inverse logit functions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pct_change.html">pct_change()</a></code> </p>
-        </td>
-        <td><p>Calculate percent change</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="prioritize_dt.html">prioritize_dt()</a></code> </p>
-        </td>
-        <td><p>Rank non-unique rows in a data.table using defined priority orders</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="read_undata_files.html">read_undata_files()</a></code> </p>
-        </td>
-        <td><p>Combine together downloaded undata files</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="rinvgamma.html">rinvgamma()</a></code> </p>
-        </td>
-        <td><p>The Inverse Gamma Distribution</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="single_download_undata_table.html">single_download_undata_table()</a></code> </p>
-        </td>
-        <td><p>Helper function to download all records for a given data.un.org query</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="summarize_dt.html">summarize_dt()</a></code> </p>
-        </td>
-        <td><p>Calculate summary statistics</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="undata_url_to_query.html">undata_url_to_query()</a></code> </p>
-        </td>
-        <td><p>Convert the undata url to the query argument needed to reference
-specific tables</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>table_url</th>
+      <td><p>[<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>]<br />
+The full url to a specific table. If filters, columns, sort order or other
+options are selected, use the 'Link to this page' -&gt; 'Update' button to update
+the <code>table_url</code>.</p></td>
+    </tr>
+    <tr>
+      <th>output_dir</th>
+      <td><p>[<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>]<br />
+Directory to save separate downloaded data files.</p></td>
+    </tr>
+    <tr>
+      <th>record_limit</th>
+      <td><p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>]<br />
+Upper limit of records/rows that you can download at once.</p></td>
+    </tr>
+    <tr>
+      <th>download_sleep</th>
+      <td><p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>]<br />
+Seconds to sleep/wait between download calls.</p></td>
+    </tr>
+    <tr>
+      <th>base_url</th>
+      <td><p>[<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>]<br />
+The base url of the data.un.org site. Default is 'http://data.un.org/Data.aspx'.</p></td>
+    </tr>
+    <tr>
+      <th>downloader_url</th>
+      <td><p>The base url of the data.un.org site download interfact. Default is
+'http://data.un.org/Handlers/DownloadHandler.ashx'.</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>[<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>] file paths for each separate file downloaded.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>A list of all possible tables is shown here http://data.un.org/Explorer.aspx.
+Currently this function assumes one is able to filter by Year when
+downloading data.</p>
+<p>The 'data.un.org' website does not allow one to download more than 100,000
+records at a time. In order to account for this, we loop through groups of
+years that stay below the limit. This means <code>table_url</code> should not already
+include specified filters for years as this function is intended to download
+all years of data.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other get_undata: 
+<code><a href='get_undata_nrecords.html'>get_undata_nrecords</a>()</code>,
+<code><a href='get_undata_update_dates.html'>get_undata_update_dates</a>()</code>,
+<code><a href='undata_url_to_query.html'>undata_url_to_query</a>()</code></p></div>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>table</span> <span class='op'>&lt;-</span> <span class='fu'>download_undata_table</span><span class='op'>(</span>
+  table_url <span class='op'>=</span> <span class='st'>"http://data.un.org/Data.aspx?d=POP&amp;f=tableCode:7;areaCode:0&amp;v=1"</span>,
+  output_dir <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span>
+<span class='op'>}</span>
+
+</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

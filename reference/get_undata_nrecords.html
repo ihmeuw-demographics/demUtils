@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • demUtils</title>
+<title>Get the total number of records (rows) available in the specified table. — get_undata_nrecords • demUtils</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,8 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Get the total number of records (rows) available in the specified table. — get_undata_nrecords" />
+<meta property="og:description" content="Get the total number of records (rows) available in the specified table." />
 
 
 
@@ -58,7 +59,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -117,151 +118,44 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Get the total number of records (rows) available in the specified table.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ihmeuw-demographics/demUtils/blob/master/R/get_undata.R'><code>R/get_undata.R</code></a></small>
+    <div class="hidden name"><code>get_undata_nrecords.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Get the total number of records (rows) available in the specified table.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>get_undata_nrecords</span><span class='op'>(</span><span class='va'>bow</span>, <span class='va'>query</span><span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-getting-data-from-data-un-org" class="hasAnchor"><a href="#section-getting-data-from-data-un-org" class="anchor"></a>Getting data from data.un.org</h2>
-          <p class="section-desc"><p>Functions to scrape tables from data.un.org</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="arc.html">arc()</a></code> </p>
-        </td>
-        <td><p>Calculate annualized rate of change (ARC)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="assert_is_unique_dt.html">assert_is_unique_dt()</a></code> <code><a href="assert_is_unique_dt.html">identify_non_unique_dt()</a></code> </p>
-        </td>
-        <td><p>Are the rows of the input data.table unique?</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="change_col_type.html">change_col_type()</a></code> </p>
-        </td>
-        <td><p>Change data.table column types</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="combine_pdfs.html">combine_pdfs()</a></code> </p>
-        </td>
-        <td><p>Combine pdfs togethers</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="demUtils.html">demUtils</a></code> </p>
-        </td>
-        <td><p>Utility functions for demographic data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="download_undata_table.html">download_undata_table()</a></code> </p>
-        </td>
-        <td><p>Download data.un.org tables as csvs</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="expand.html">expand()</a></code> </p>
-        </td>
-        <td><p>Expand</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="extrapolate.html">extrapolate()</a></code> </p>
-        </td>
-        <td><p>Extrapolate</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_undata_nrecords.html">get_undata_nrecords()</a></code> </p>
-        </td>
-        <td><p>Get the total number of records (rows) available in the specified table.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_undata_update_dates.html">get_undata_update_dates()</a></code> </p>
-        </td>
-        <td><p>Get the listed update dates for a data.un.org table</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="interpolate.html">interpolate()</a></code> </p>
-        </td>
-        <td><p>Interpolate</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="logit_utils.html">logit()</a></code> <code><a href="logit_utils.html">invlogit()</a></code> <code><a href="logit_utils.html">check_logit_inputs()</a></code> </p>
-        </td>
-        <td><p>Logit and inverse logit functions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pct_change.html">pct_change()</a></code> </p>
-        </td>
-        <td><p>Calculate percent change</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="prioritize_dt.html">prioritize_dt()</a></code> </p>
-        </td>
-        <td><p>Rank non-unique rows in a data.table using defined priority orders</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="read_undata_files.html">read_undata_files()</a></code> </p>
-        </td>
-        <td><p>Combine together downloaded undata files</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="rinvgamma.html">rinvgamma()</a></code> </p>
-        </td>
-        <td><p>The Inverse Gamma Distribution</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="single_download_undata_table.html">single_download_undata_table()</a></code> </p>
-        </td>
-        <td><p>Helper function to download all records for a given data.un.org query</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="summarize_dt.html">summarize_dt()</a></code> </p>
-        </td>
-        <td><p>Calculate summary statistics</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="undata_url_to_query.html">undata_url_to_query()</a></code> </p>
-        </td>
-        <td><p>Convert the undata url to the query argument needed to reference
-specific tables</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>bow</th>
+      <td><p>host introduction object of class <code>polite</code>, <code>session</code> created by <code>bow()</code> or <code>nod()</code></p></td>
+    </tr>
+    <tr>
+      <th>query</th>
+      <td><p>named list of parameters to be appended to URL in the format <code><a href='https://rdrr.io/r/base/list.html'>list(param1=valA, param2=valB)</a></code></p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>] the total number of records available in a table as
+specified by <code>query</code>.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other get_undata: 
+<code><a href='download_undata_table.html'>download_undata_table</a>()</code>,
+<code><a href='get_undata_update_dates.html'>get_undata_update_dates</a>()</code>,
+<code><a href='undata_url_to_query.html'>undata_url_to_query</a>()</code></p></div>
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

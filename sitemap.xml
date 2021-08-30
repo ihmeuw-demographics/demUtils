@@ -19,19 +19,16 @@
     <loc>https://ihmeuw-demographics.github.io/demUtils/reference/demUtils.html</loc>
   </url>
   <url>
+    <loc>https://ihmeuw-demographics.github.io/demUtils/reference/download_undata_table.html</loc>
+  </url>
+  <url>
     <loc>https://ihmeuw-demographics.github.io/demUtils/reference/expand.html</loc>
   </url>
   <url>
     <loc>https://ihmeuw-demographics.github.io/demUtils/reference/extrapolate.html</loc>
   </url>
   <url>
-    <loc>https://ihmeuw-demographics.github.io/demUtils/reference/get_undata_npages.html</loc>
-  </url>
-  <url>
-    <loc>https://ihmeuw-demographics.github.io/demUtils/reference/get_undata_table.html</loc>
-  </url>
-  <url>
-    <loc>https://ihmeuw-demographics.github.io/demUtils/reference/get_undata_table_page.html</loc>
+    <loc>https://ihmeuw-demographics.github.io/demUtils/reference/get_undata_nrecords.html</loc>
   </url>
   <url>
     <loc>https://ihmeuw-demographics.github.io/demUtils/reference/get_undata_update_dates.html</loc>
@@ -49,7 +46,13 @@
     <loc>https://ihmeuw-demographics.github.io/demUtils/reference/prioritize_dt.html</loc>
   </url>
   <url>
+    <loc>https://ihmeuw-demographics.github.io/demUtils/reference/read_undata_files.html</loc>
+  </url>
+  <url>
     <loc>https://ihmeuw-demographics.github.io/demUtils/reference/rinvgamma.html</loc>
+  </url>
+  <url>
+    <loc>https://ihmeuw-demographics.github.io/demUtils/reference/single_download_undata_table.html</loc>
   </url>
   <url>
     <loc>https://ihmeuw-demographics.github.io/demUtils/reference/summarize_dt.html</loc>
