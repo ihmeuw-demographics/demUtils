@@ -31,7 +31,6 @@ Imports:
     checkmate,
     methods,
     fs,
-    reticulate,
     rvest,
     polite,
     httr
