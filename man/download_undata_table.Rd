@@ -31,7 +31,7 @@ Seconds to sleep/wait between download calls.}
 \item{base_url}{[\code{character(1)}]\cr
 The base url of the data.un.org site. Default is 'http://data.un.org/Data.aspx'.}
 
-\item{downloader_url}{The base url of the data.un.org site download interfact. Default is
+\item{downloader_url}{The base url of the data.un.org site download interface. Default is
 'http://data.un.org/Handlers/DownloadHandler.ashx'.}
 }
 \value{
