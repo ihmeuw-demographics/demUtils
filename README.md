@@ -1,7 +1,7 @@
 # demUtils
 
 <!-- badges: start -->
-[![R build status](https://github.com/ihmeuw-demographics/demUtils/workflows/R-CMD-check/badge.svg)](https://github.com/ihmeuw-demographics/demUtils/actions)
+[![R-CMD-check](https://github.com/ihmeuw-demographics/demUtils/workflows/R-CMD-check/badge.svg)](https://github.com/ihmeuw-demographics/demUtils/actions)
 [![Codecov test coverage](https://codecov.io/gh/ihmeuw-demographics/demUtils/branch/master/graph/badge.svg)](https://codecov.io/gh/ihmeuw-demographics/package_template?branch=master)
 <!-- badges: end -->
 
