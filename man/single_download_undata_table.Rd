@@ -25,7 +25,7 @@ Full path and file name to save downloaded csv file to.}
 \item{record_limit}{[\code{numeric(1)}]\cr
 Upper limit of records/rows that you can download at once.}
 
-\item{downloader_url}{The base url of the data.un.org site download interfact. Default is
+\item{downloader_url}{The base url of the data.un.org site download interface. Default is
 'http://data.un.org/Handlers/DownloadHandler.ashx'.}
 }
 \value{

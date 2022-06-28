@@ -3,7 +3,6 @@
 export(arc)
 export(assert_is_unique_dt)
 export(change_col_type)
-export(combine_pdfs)
 export(download_undata_table)
 export(expand)
 export(extrapolate)
