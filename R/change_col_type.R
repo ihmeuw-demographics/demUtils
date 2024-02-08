@@ -26,10 +26,10 @@ change_col_type <- function(dt,
                             is_fun = is.integer,
                             as_fun = as.numeric) {
 
-  assertive::is_data.table(dt)
-  assertive::is_character(check_cols)
-  assertive::is_function(is_fun)
-  assertive::is_function(as_fun)
+  checkmate::assert_data_table(dt)
+  checkmate::assert_character(check_cols)
+  checkmate::assert_function(is_fun)
+  checkmate::assert_function(as_fun)
 
   # subset to columns in dt
   if (length(check_cols) > 0) {
