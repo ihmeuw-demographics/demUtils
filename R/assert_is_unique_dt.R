@@ -44,11 +44,11 @@ identify_non_unique_dt <- function(dt, id_cols) {
   # Validate arguments ------------------------------------------------------
 
   # check `id_cols` argument
-  assertive::assert_is_character(id_cols)
+  checkmate::assert_character(id_cols)
 
   # check `dt` argument
-  assertive::assert_is_data.table(dt)
-  assertable::assert_colnames(dt, id_cols, only_colnames = F, quiet = T)
+  checkmate::assert_data_table(dt)
+  checkmate::assert_names(names(dt), must.include = id_cols)
 
   # Count number of rows in each combination of `id_cols` -------------------
 

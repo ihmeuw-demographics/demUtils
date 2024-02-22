@@ -70,32 +70,30 @@ summarize_dt <- function(dt,
   # Validate arguments ------------------------------------------------------
 
   # check `summarize_cols` argument
-  assertive::assert_is_character(summarize_cols)
+  checkmate::assert_character(summarize_cols)
 
   # check `value_cols` argument
-  assertive::assert_is_character(value_cols)
+  checkmate::assert_character(value_cols)
 
   # check `id_cols` argument
-  assertive::assert_is_character(id_cols)
+  checkmate::assert_character(id_cols)
   assertthat::assert_that(all(summarize_cols %in% id_cols),
                           msg = "`id_cols` must include `summarize_cols`")
 
   # check `dt` argument
-  assertive::assert_is_data.table(dt)
+  checkmate::assert_data_table(dt)
   assertable::assert_colnames(dt, c(id_cols, value_cols), only_colnames = F,
                               quiet = T)
   assert_is_unique_dt(dt, id_cols)
 
   # check `summary_fun` argument
-  assertthat::assert_that(assertive::is_character(summary_fun) |
-                            assertive::is_empty(summary_fun),
+  assertthat::assert_that(is.character(summary_fun) | is.null(summary_fun),
                           all(sapply(summary_fun, methods::existsFunction)),
                           msg = "`summary_fun` must be a correspond to a defined
                           function")
 
   # check `probs` argument
-  assertthat::assert_that(assertive::is_numeric(probs) |
-                            assertive::is_empty(probs),
+  assertthat::assert_that(is.numeric(probs) | is.null(probs),
                           all(data.table::between(probs, 0, 1)),
                           msg = "`probs`` must be between 0 and 1
                           (or empty/null)")

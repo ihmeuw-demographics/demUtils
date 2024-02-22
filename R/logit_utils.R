@@ -72,7 +72,7 @@ invlogit <- function(x, domain_lower = 0, domain_upper = 1) {
 check_logit_inputs <- function(x, domain_lower, domain_upper) {
 
   # check numeric, input lengths, and lower < upper
-  assertive::assert_is_numeric(c(x, domain_lower, domain_upper))
+  checkmate::assert_numeric(c(x, domain_lower, domain_upper))
   assertthat::assert_that(length(domain_lower) %in% c(1, length(x)) &
                             length(domain_upper) %in% c(1, length(x)),
                           msg = "`domain_lower` and `domain_upper` must be

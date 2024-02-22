@@ -26,7 +26,6 @@ Imports:
     data.table,
     dplyr,
     assertthat,
-    assertive,
     assertable (>= 0.2.7),
     checkmate,
     methods,
